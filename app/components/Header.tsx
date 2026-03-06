@@ -231,13 +231,10 @@ export function Header() {
               ))}
               <div className="mt-8 space-y-2 text-sm uppercase tracking-wider text-black/70">
                 <p>follow</p>
-                <a href="https://instagram.com/monolithstudio" target="_blank" rel="noopener noreferrer">instagram</a>
-                <a href="https://www.youtube.com/@monolithstudionyc" target="_blank" rel="noopener noreferrer">youtube</a>
-                <a href="https://www.tiktok.com/@monolithstudio" target="_blank" rel="noopener noreferrer">tiktok</a>
+                <a href="https://instagram.com/asogflux" target="_blank" rel="noopener noreferrer">instagram</a>
               </div>
               <p className="mt-4 text-sm text-black/60">reach out</p>
-              <a href="mailto:hello@monolithstudio.com" className="text-sm text-black/80">hello@monolithstudio.com</a>
-              <p className="text-sm text-black/60">77 Washington Avenue, Brooklyn, NYC, USA, 11205</p>
+              <a href="mailto:momopick.global@gmail.com" className="text-sm text-black/80">momopick.global@gmail.com</a>
             </nav>
           </div>
         </div>
