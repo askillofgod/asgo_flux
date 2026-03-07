@@ -18,15 +18,22 @@ export function HeroVideoLayer() {
   const [videoSrc, setVideoSrc] = useState(BG_VIDEOS[0]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [tapToPlay, setTapToPlay] = useState(false); // iOS 등에서 자동재생 막혔을 때 true
+  const [loadError, setLoadError] = useState(false); // 비디오 로드 실패 시 검은 화면 대신 배경만 표시
 
   useEffect(() => {
+    setLoadError(false);
     setVideoSrc(BG_VIDEOS[Math.floor(Math.random() * BG_VIDEOS.length)]);
   }, []);
+
+  const onVideoError = () => {
+    setLoadError(true); // 로드 실패 시 비디오 숨기고 밝은 배경만 보이게
+  };
 
   // iOS Safari는 사용자 제스처 없이 자동재생을 막음 → 재생 실패 시 탭 오버레이 표시
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    setLoadError(false);
     const attemptPlay = () => {
       video.muted = true;
       const p = video.play();
@@ -35,7 +42,11 @@ export function HeroVideoLayer() {
       }
     };
     video.addEventListener("loadeddata", attemptPlay, { once: true });
+    video.addEventListener("error", onVideoError, { once: true });
     attemptPlay();
+    return () => {
+      video.removeEventListener("error", onVideoError);
+    };
   }, [videoSrc]);
 
   const onTapOverlay = () => {
@@ -74,8 +85,9 @@ export function HeroVideoLayer() {
         muted
         playsInline
         loop
-        className="h-full w-full object-cover"
+        className={`h-full w-full object-cover ${loadError ? "hidden" : ""}`}
         style={{ objectFit: "cover" }}
+        onError={onVideoError}
       >
         <source src={videoSrc} type="video/mp4" />
       </video>
