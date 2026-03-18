@@ -27,7 +27,7 @@ export default function Home() {
         {/* Hero */}
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden pb-12 pt-0 text-left">
           <div className={`relative z-10 ${CONTENT_MAX} ${CONTENT_PADDING} w-full`}>
-            <h1 className="mt-12 mb-16 w-full text-left font-medium leading-[0.9] text-black text-[clamp(6rem,34vw,18rem)] tracking-[-0.04em]">
+            <h1 className="mt-12 mb-16 w-full text-left font-medium leading-[0.9] text-black text-[clamp(4.5rem,26vw,14rem)] tracking-[-0.04em]">
               <TypingText
                 text="Designing flows that drive decisions."
                 speedMs={70}
