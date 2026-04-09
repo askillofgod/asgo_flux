@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SmoothScroll } from "./components/SmoothScroll";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://asgoflux.pages.dev";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://asgo-flux.pages.dev";
 const OG_IMAGE_URL = `${SITE_URL}/images/og-image.png`;
 
 export const metadata: Metadata = {
