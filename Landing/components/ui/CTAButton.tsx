@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "kakao" | "ghost";
+type Variant = "primary" | "secondary" | "secondary-dark" | "kakao" | "ghost";
 type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed";
 
 const sizeMap: Record<Size, string> = {
   md: "h-11 px-5 text-[15px]",
@@ -14,11 +14,13 @@ const sizeMap: Record<Size, string> = {
 
 const variantMap: Record<Variant, string> = {
   primary:
-    "bg-[var(--accent)] text-white hover:bg-[var(--accent-strong)] active:bg-[var(--accent-strong)]",
+    "text-white bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] shadow-[0_10px_30px_-12px_rgba(37,99,235,0.55)] hover:shadow-[0_14px_36px_-12px_rgba(37,99,235,0.7)] hover:brightness-[1.05] active:brightness-95",
   secondary:
-    "bg-white text-[var(--primary)] border border-[var(--border)] hover:bg-[var(--bg-soft)]",
+    "bg-white text-[var(--primary)] border border-[var(--border-strong)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
+  "secondary-dark":
+    "bg-white/[0.04] text-white border border-white/15 backdrop-blur hover:bg-white/[0.08] hover:border-white/35",
   kakao:
-    "bg-[var(--kakao)] text-[var(--kakao-text)] hover:brightness-95",
+    "bg-[var(--kakao)] text-[var(--kakao-text)] hover:brightness-95 shadow-[0_8px_24px_-12px_rgba(254,229,0,0.6)]",
   ghost:
     "bg-transparent text-[var(--primary)] hover:bg-[var(--bg-soft)]",
 };

@@ -3,34 +3,28 @@ import { PROBLEMS } from "@/data/problems";
 
 export default function ProblemSection() {
   return (
-    <section id="problem" className="bg-[var(--bg-soft)] py-16 sm:py-20 md:py-24">
+    <section id="problem" className="bg-white py-20 sm:py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionTitle
           eyebrow="PROBLEM"
           title={"홈페이지가 필요하지만,\n이런 점이 막막하지 않으셨나요?"}
         />
 
-        <ul className="mt-10 sm:mt-12 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {PROBLEMS.map((p) => (
+        <ul className="mt-12 sm:mt-14 grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {PROBLEMS.map((p, i) => (
             <li
               key={p.title}
-              className="rounded-2xl border border-[var(--border)] bg-white p-5 sm:p-6"
+              className="card-hover group relative rounded-2xl border border-[var(--border)] bg-white p-6 sm:p-7 shadow-[var(--shadow-card)]"
             >
-              <div className="flex items-start gap-3">
-                <span className="mt-0.5 inline-flex h-7 w-7 flex-none items-center justify-center rounded-full bg-[var(--bg-soft)] text-[var(--accent)]">
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-                    <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 6h2v6H9V6zm0 7h2v2H9v-2z" />
-                  </svg>
-                </span>
-                <div>
-                  <h3 className="text-[15px] sm:text-base font-bold text-[var(--primary)]">
-                    {p.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm sm:text-[15px] leading-relaxed text-[var(--text-muted)]">
-                    {p.body}
-                  </p>
-                </div>
-              </div>
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)]/10 to-[var(--accent-cyan)]/10 text-[var(--accent)] font-black text-[15px] tracking-tight border border-[var(--accent)]/15">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-4 text-[16px] sm:text-[17px] font-bold text-[var(--primary)] leading-snug">
+                {p.title}
+              </h3>
+              <p className="mt-2.5 text-[14.5px] leading-relaxed text-[var(--text-muted)]">
+                {p.body}
+              </p>
             </li>
           ))}
         </ul>

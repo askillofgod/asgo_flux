@@ -19,7 +19,8 @@ export const PRICING: PricingProduct[] = [
     name: "원페이지 홈페이지",
     price: "50만 원",
     priceNote: "부가세 별도 · 1~2주 제작",
-    tag: "가장 빠른 제작",
+    tag: "가장 인기",
+    highlight: true,
     recommendFor: "급하게 홈페이지가 필요한 소상공인",
     features: [
       "원페이지 구성",
@@ -36,7 +37,6 @@ export const PRICING: PricingProduct[] = [
     price: "70만 원",
     priceNote: "부가세 별도 · 2주 제작",
     tag: "광고 전환 특화",
-    highlight: true,
     recommendFor: "당근·네이버·인스타 광고용 페이지가 필요한 업체",
     features: [
       "광고용 상세 랜딩페이지",

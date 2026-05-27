@@ -25,31 +25,33 @@ export default function Header() {
   return (
     <header
       className={[
-        "fixed inset-x-0 top-0 z-50 transition-colors",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-200",
         scrolled
-          ? "bg-white/90 backdrop-blur border-b border-[var(--border)]"
-          : "bg-white/70 backdrop-blur",
+          ? "bg-[#06091a]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.4)]"
+          : "bg-transparent",
       ].join(" ")}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a href="#top" className="flex items-center gap-2">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-[var(--primary)] text-white text-sm font-black">
+        <a href="#top" className="group flex items-center gap-2.5">
+          <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--accent-cyan)] to-[var(--accent)] text-white text-sm font-black shadow-[0_4px_14px_-4px_rgba(37,99,235,0.55)]">
             A
           </span>
-          <span className="text-[15px] sm:text-base font-extrabold text-[var(--primary)]">
-            {SITE.brandShort}
-            <span className="ml-1 hidden sm:inline text-[var(--text-muted)] font-medium">
+          <span className="flex flex-col leading-tight">
+            <span className="text-[15px] font-extrabold text-white tracking-tight">
+              ASOG
+            </span>
+            <span className="hidden sm:block text-[10.5px] font-medium tracking-wider text-white/55 uppercase">
               정찰제 홈페이지 제작소
             </span>
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-7">
+        <nav className="hidden md:flex items-center gap-8">
           {NAV.map((n) => (
             <a
               key={n.href}
               href={n.href}
-              className="text-sm font-semibold text-[var(--primary)] hover:text-[var(--accent)]"
+              className="text-[13.5px] font-semibold text-white/75 hover:text-white transition-colors"
             >
               {n.label}
             </a>
@@ -64,7 +66,7 @@ export default function Header() {
 
         <button
           type="button"
-          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--primary)]"
+          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md text-white"
           onClick={() => setOpen((v) => !v)}
           aria-label="메뉴 열기"
           aria-expanded={open}
@@ -80,19 +82,24 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-[var(--border)] bg-white">
-          <div className="px-4 py-4 flex flex-col gap-2">
+        <div className="md:hidden border-t border-white/10 bg-[#06091a]/95 backdrop-blur-xl">
+          <div className="px-4 py-4 flex flex-col gap-1.5">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-3 text-[15px] font-semibold text-[var(--primary)] hover:bg-[var(--bg-soft)]"
+                className="rounded-lg px-3 py-3 text-[15px] font-semibold text-white/85 hover:bg-white/5"
               >
                 {n.label}
               </a>
             ))}
-            <CTAButton href="#contact" variant="primary" size="md" className="mt-2 w-full">
+            <CTAButton
+              href="#contact"
+              variant="primary"
+              size="md"
+              className="mt-2 w-full"
+            >
               {SITE.cta.primary}
             </CTAButton>
           </div>
