@@ -63,6 +63,9 @@ export const metadata: Metadata = {
   },
   formatDetection: { telephone: true, email: true, address: false },
   category: "business",
+  verification: {
+    google: "hXQCTw2WCh6Synes72w45_V_B5MytC9Tk3ELnFqD2dY",
+  },
 };
 
 export const viewport: Viewport = {
