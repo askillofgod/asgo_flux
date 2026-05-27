@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: `${SITE.name} — ${SITE.tagline}`,
-        type: "image/png",
+        type: "image/jpeg",
       },
     ],
   },

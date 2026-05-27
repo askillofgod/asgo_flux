@@ -8,7 +8,7 @@ export const SITE = {
   tagline: "가격이 투명한 AI 웹디자인 스튜디오",
 
   url: "https://asog-landing.pages.dev",
-  ogImage: "/og-image.png",
+  ogImage: "/og-image.jpg",
 
   metaTitle:
     "정찰제 홈페이지 제작 | AI 웹디자인 스튜디오 ASOG",
