@@ -9,12 +9,13 @@ export default function StickyMobileCTA() {
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <div className="pointer-events-none absolute inset-x-0 -top-6 h-6 bg-gradient-to-t from-white to-transparent" />
-      <div className="mx-auto flex max-w-md gap-2 px-3 py-2.5 bg-white/95 backdrop-blur border-t border-[var(--border)]">
+      <div className="mx-auto flex max-w-md gap-2 px-3 py-3 bg-white/95 backdrop-blur border-t border-[var(--border)]">
         <a
           href={SITE.contact.kakaoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[var(--kakao)] text-[var(--kakao-text)] text-[14.5px] font-bold shadow-[0_8px_22px_-12px_rgba(254,229,0,0.7)]"
+          data-event="cta_sticky_kakao_click"
+          className="flex-1 inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[var(--kakao)] text-[var(--kakao-text)] text-[15px] font-bold shadow-[0_10px_24px_-12px_rgba(254,229,0,0.7)]"
         >
           <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
             <path d="M12 3C6.477 3 2 6.477 2 10.77c0 2.77 1.86 5.197 4.66 6.57-.21.73-.76 2.69-.87 3.12-.14.53.19.52.4.38.17-.11 2.66-1.8 3.73-2.52.68.1 1.38.15 2.08.15 5.523 0 10-3.477 10-7.7C22 6.477 17.523 3 12 3z" />
@@ -23,7 +24,8 @@ export default function StickyMobileCTA() {
         </a>
         <a
           href="#contact"
-          className="flex-1 inline-flex h-12 items-center justify-center rounded-xl bg-[linear-gradient(135deg,#3b82f6,#2563eb_60%,#1d4ed8)] text-white text-[14.5px] font-bold shadow-[0_10px_24px_-10px_rgba(37,99,235,0.6)]"
+          data-event="cta_sticky_primary_click"
+          className="flex-1 inline-flex h-[52px] items-center justify-center rounded-xl bg-[linear-gradient(135deg,#3b82f6,#2563eb_60%,#1d4ed8)] text-white text-[15px] font-bold shadow-[0_12px_28px_-12px_rgba(37,99,235,0.65)]"
         >
           무료 상담 신청
         </a>

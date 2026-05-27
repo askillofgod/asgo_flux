@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CTAButton from "./ui/CTAButton";
 import { SITE } from "@/data/site";
 
 const NAV = [
@@ -27,31 +26,31 @@ export default function Header() {
       className={[
         "fixed inset-x-0 top-0 z-50 transition-all duration-200",
         scrolled
-          ? "bg-[#06091a]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.4)]"
+          ? "bg-[#04060f]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.4)]"
           : "bg-transparent",
       ].join(" ")}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-5 sm:px-6">
         <a href="#top" className="group flex items-center gap-2.5">
-          <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--accent-cyan)] to-[var(--accent)] text-white text-sm font-black shadow-[0_4px_14px_-4px_rgba(37,99,235,0.55)]">
+          <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--accent-cyan)] to-[var(--accent)] text-white text-[15px] font-black shadow-[0_6px_18px_-4px_rgba(37,99,235,0.55)]">
             A
           </span>
           <span className="flex flex-col leading-tight">
-            <span className="text-[15px] font-extrabold text-white tracking-tight">
+            <span className="text-[16px] font-extrabold text-white tracking-tight">
               ASOG
             </span>
-            <span className="hidden sm:block text-[10.5px] font-medium tracking-wider text-white/55 uppercase">
+            <span className="hidden sm:block text-[10.5px] font-semibold tracking-wider text-white/55 uppercase">
               정찰제 홈페이지 제작소
             </span>
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-9">
           {NAV.map((n) => (
             <a
               key={n.href}
               href={n.href}
-              className="text-[13.5px] font-semibold text-white/75 hover:text-white transition-colors"
+              className="text-[14px] font-semibold text-white/75 hover:text-white transition-colors"
             >
               {n.label}
             </a>
@@ -59,14 +58,18 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
-          <CTAButton href="#contact" variant="primary" size="md">
+          <a
+            href="#contact"
+            data-event="cta_header_primary_click"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-5 text-[14.5px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,0.55)] hover:shadow-[0_14px_28px_-10px_rgba(37,99,235,0.7)] hover:brightness-[1.05] transition-all"
+          >
             {SITE.cta.primary}
-          </CTAButton>
+          </a>
         </div>
 
         <button
           type="button"
-          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md text-white"
+          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-white"
           onClick={() => setOpen((v) => !v)}
           aria-label="메뉴 열기"
           aria-expanded={open}
@@ -82,26 +85,26 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-white/10 bg-[#06091a]/95 backdrop-blur-xl">
-          <div className="px-4 py-4 flex flex-col gap-1.5">
+        <div className="md:hidden border-t border-white/10 bg-[#04060f]/95 backdrop-blur-xl">
+          <div className="px-5 py-5 flex flex-col gap-1.5">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-3 text-[15px] font-semibold text-white/85 hover:bg-white/5"
+                className="rounded-lg px-4 py-3.5 text-[16px] font-semibold text-white/85 hover:bg-white/5"
               >
                 {n.label}
               </a>
             ))}
-            <CTAButton
+            <a
               href="#contact"
-              variant="primary"
-              size="md"
-              className="mt-2 w-full"
+              onClick={() => setOpen(false)}
+              data-event="cta_header_mobile_primary_click"
+              className="mt-2 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-5 text-[15px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,0.55)]"
             >
               {SITE.cta.primary}
-            </CTAButton>
+            </a>
           </div>
         </div>
       )}

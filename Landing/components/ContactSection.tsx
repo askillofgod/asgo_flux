@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import SectionTitle from "./ui/SectionTitle";
-import CTAButton from "./ui/CTAButton";
 import { SITE } from "@/data/site";
 import { PRICING } from "@/data/pricing";
 import { insertInquiry } from "@/lib/supabase";
@@ -99,26 +98,53 @@ export default function ContactSection() {
   const isSubmitting = status === "submitting";
 
   return (
-    <section id="contact" className="bg-[var(--bg-soft)] py-20 sm:py-24 md:py-28">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+    <section id="contact" className="relative overflow-hidden bg-[var(--bg-soft)] py-24 sm:py-28 md:py-32">
+      {/* 배경 글로우 */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[360px] -z-0"
+        style={{
+          background:
+            "radial-gradient(60% 70% at 50% 0%, rgba(37,99,235,0.10), transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-3xl px-5 sm:px-6">
         <SectionTitle
           eyebrow="CONTACT"
           title="무료 상담 신청"
-          description="아래 폼으로 신청해 주세요. 보통 30분 내 답변드립니다. 더 빠른 상담이 필요하면 카카오톡으로도 문의 가능합니다."
+          description="아래 폼으로 신청해 주세요. 평일 기준 30분 내 답변드립니다. 더 빠른 상담이 필요하면 카카오톡으로 문의해 주세요."
         />
 
-        {/* 연락 채널 카드 */}
-        <div className="mt-10 grid gap-3 sm:gap-4 sm:grid-cols-3">
-          <ChannelCard
-            href={SITE.contact.kakaoUrl}
-            external
-            label="카카오톡 상담"
-            value="가장 빠른 답변"
-            tint="kakao"
-            icon={<KakaoGlyph />}
-          />
+        {/* 카카오톡 강조 CTA */}
+        <a
+          href={SITE.contact.kakaoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-event="cta_contact_kakao_hero_click"
+          className="mt-10 group relative flex items-center gap-4 rounded-3xl bg-[var(--kakao)] px-6 py-5 sm:px-7 sm:py-6 shadow-[0_18px_44px_-18px_rgba(254,229,0,0.7)] hover:shadow-[0_24px_56px_-18px_rgba(254,229,0,0.85)] transition-shadow"
+        >
+          <span className="inline-flex h-12 w-12 sm:h-14 sm:w-14 flex-none items-center justify-center rounded-2xl bg-[#181600]/10">
+            <KakaoGlyph className="h-6 w-6 sm:h-7 sm:w-7 text-[#181600]" />
+          </span>
+          <span className="flex flex-col">
+            <span className="text-[12px] sm:text-[13px] font-bold tracking-wider uppercase text-[#181600]/65">
+              가장 빠른 답변
+            </span>
+            <span className="text-[18px] sm:text-[22px] font-black text-[#181600] leading-tight">
+              카카오톡으로 바로 상담하기
+            </span>
+          </span>
+          <span className="ml-auto hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#181600]/10 text-[#181600] group-hover:translate-x-1 transition-transform">
+            <ArrowRight />
+          </span>
+        </a>
+
+        {/* 전화/이메일 카드 */}
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
           <ChannelCard
             href={`tel:${SITE.contact.phoneTel}`}
+            event="cta_contact_phone_click"
             label="전화 문의"
             value={SITE.contact.phone}
             tint="blue"
@@ -126,6 +152,7 @@ export default function ContactSection() {
           />
           <ChannelCard
             href={`mailto:${SITE.contact.email}`}
+            event="cta_contact_email_click"
             label="이메일"
             value={SITE.contact.email}
             tint="navy"
@@ -133,8 +160,9 @@ export default function ContactSection() {
           />
         </div>
 
+        {/* 폼 */}
         <form
-          className="mt-8 sm:mt-10 rounded-3xl border border-[var(--border)] bg-white p-6 sm:p-8 shadow-[var(--shadow-soft)] grid gap-5"
+          className="mt-10 rounded-[28px] border border-[var(--border)] bg-white p-6 sm:p-9 shadow-[var(--shadow-soft)] grid gap-5"
           onSubmit={onSubmit}
           noValidate
         >
@@ -182,7 +210,7 @@ export default function ContactSection() {
             <select
               value={form.product}
               onChange={handle("product")}
-              className="input-base appearance-none bg-white pr-10"
+              className="input-base"
             >
               <option value="">선택해 주세요</option>
               {PRODUCT_OPTIONS.map((opt) => (
@@ -209,14 +237,15 @@ export default function ContactSection() {
               onChange={handle("message")}
               placeholder="어떤 홈페이지가 필요하신지 자유롭게 적어주세요."
               rows={5}
-              className="input-base min-h-[140px] resize-y"
+              className="input-base"
+              style={{ minHeight: 140 }}
             />
           </Field>
 
           {validationError && (
             <p
               role="alert"
-              className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 border border-red-100"
+              className="rounded-xl bg-red-50 px-4 py-3 text-[14px] font-semibold text-red-700 border border-red-100"
             >
               {validationError}
             </p>
@@ -224,7 +253,7 @@ export default function ContactSection() {
           {status === "success" && (
             <p
               role="status"
-              className="rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700 border border-emerald-100"
+              className="rounded-xl bg-emerald-50 px-4 py-3 text-[14px] font-semibold text-emerald-700 border border-emerald-100"
             >
               상담 신청이 접수되었습니다. 빠르게 연락드리겠습니다.
             </p>
@@ -232,7 +261,7 @@ export default function ContactSection() {
           {status === "error" && (
             <p
               role="alert"
-              className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700 border border-red-100"
+              className="rounded-xl bg-red-50 px-4 py-3 text-[14px] font-semibold text-red-700 border border-red-100"
             >
               접수 중 오류가 발생했습니다. 카카오톡 또는 전화로 문의해 주세요.
             </p>
@@ -241,7 +270,8 @@ export default function ContactSection() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-7 text-[17px] font-semibold text-white shadow-[0_12px_32px_-12px_rgba(37,99,235,0.6)] transition-all hover:shadow-[0_18px_40px_-12px_rgba(37,99,235,0.75)] hover:brightness-[1.05] active:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+            data-event="cta_contact_form_submit"
+            className="inline-flex h-14 sm:h-[60px] w-full items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-7 text-button text-white shadow-[var(--shadow-glow)] transition-all hover:shadow-[var(--shadow-glow-strong)] hover:brightness-[1.05] active:brightness-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
             aria-busy={isSubmitting}
           >
             {isSubmitting ? (
@@ -257,30 +287,26 @@ export default function ContactSection() {
           </button>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <CTAButton
+            <a
               href={SITE.contact.kakaoUrl}
-              variant="kakao"
-              size="md"
-              external
-              className="w-full"
-              ariaLabel="카카오톡으로 상담하기"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-event="cta_contact_kakao_form_click"
+              className="inline-flex h-12 sm:h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[var(--kakao)] px-5 text-[15px] font-bold text-[var(--kakao-text)] hover:brightness-95 transition-all shadow-[0_8px_22px_-12px_rgba(254,229,0,0.65)]"
             >
-              <KakaoGlyph /> 카카오톡 문의
-            </CTAButton>
-            <CTAButton
+              <KakaoGlyph className="h-5 w-5" /> 카카오톡 문의
+            </a>
+            <a
               href={mailtoHref}
-              variant="secondary"
-              size="md"
-              external
-              className="w-full"
-              ariaLabel="이메일로 문의 내용 보내기"
+              data-event="cta_contact_email_form_click"
+              className="inline-flex h-12 sm:h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-[15px] font-bold text-[var(--primary)] border border-[var(--border-strong)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
             >
-              <MailGlyph /> 이메일로 보내기
-            </CTAButton>
+              <MailGlyph className="h-5 w-5" /> 이메일로 보내기
+            </a>
           </div>
 
-          <p className="text-[12px] text-[var(--text-muted)] leading-relaxed">
-            * 이름·연락처는 필수입니다. 입력하신 정보는 상담 회신 목적으로만 사용됩니다.
+          <p className="text-[12.5px] text-[var(--text-muted)] leading-relaxed">
+            * 이름·연락처는 필수입니다. 입력하신 정보는 상담 회신 목적으로만 사용되며, 외부에 공유되지 않습니다.
           </p>
         </form>
       </div>
@@ -299,7 +325,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-[13px] font-bold tracking-tight text-[var(--primary)]">
+      <span className="mb-2 block text-[13.5px] font-bold tracking-tight text-[var(--primary)]">
         {label}
         {required && <span className="ml-1 text-[var(--accent)]">*</span>}
       </span>
@@ -310,14 +336,14 @@ function Field({
 
 function ChannelCard({
   href,
-  external,
+  event,
   label,
   value,
   icon,
   tint,
 }: {
   href: string;
-  external?: boolean;
+  event: string;
   label: string;
   value: string;
   icon: React.ReactNode;
@@ -325,56 +351,54 @@ function ChannelCard({
 }) {
   const palette: Record<typeof tint, string> = {
     kakao: "bg-[#fff9c4] text-[#181600] border-[#f1d44b]/50",
-    blue: "bg-gradient-to-br from-[var(--accent)]/10 to-[var(--accent-cyan)]/10 text-[var(--accent)] border-[var(--accent)]/15",
-    navy: "bg-[var(--primary)]/[0.06] text-[var(--primary)] border-[var(--primary)]/15",
+    blue: "bg-gradient-to-br from-[var(--accent)]/12 to-[var(--accent-cyan)]/12 text-[var(--accent)] border-[var(--accent)]/20",
+    navy: "bg-[var(--primary)]/[0.08] text-[var(--primary)] border-[var(--primary)]/15",
   };
   const isHttp = href.startsWith("http");
-  const Tag = isHttp ? "a" : "a";
-  const props = isHttp
-    ? { href, target: "_blank", rel: "noopener noreferrer" }
-    : { href };
-  void external;
   return (
-    <Tag
-      {...props}
-      className="card-hover flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white p-4 sm:p-5"
+    <a
+      href={href}
+      data-event={event}
+      target={isHttp ? "_blank" : undefined}
+      rel={isHttp ? "noopener noreferrer" : undefined}
+      className="card-hover flex items-center gap-4 rounded-2xl border border-[var(--border)] bg-white p-4 sm:p-5"
     >
       <span
-        className={`inline-flex h-11 w-11 flex-none items-center justify-center rounded-xl border ${palette[tint]}`}
+        className={`inline-flex h-12 w-12 flex-none items-center justify-center rounded-xl border ${palette[tint]}`}
       >
         {icon}
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className="text-[11.5px] font-semibold tracking-wider uppercase text-[var(--text-muted)]">
+        <span className="text-[11.5px] font-bold tracking-wider uppercase text-[var(--text-muted)]">
           {label}
         </span>
-        <span className="truncate text-[14px] font-bold text-[var(--primary)]">
+        <span className="truncate text-[15px] font-bold text-[var(--primary)]">
           {value}
         </span>
       </span>
-    </Tag>
+    </a>
   );
 }
 
-function KakaoGlyph() {
+function KakaoGlyph({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className ?? "h-5 w-5"} aria-hidden="true">
       <path d="M12 3C6.477 3 2 6.477 2 10.77c0 2.77 1.86 5.197 4.66 6.57-.21.73-.76 2.69-.87 3.12-.14.53.19.52.4.38.17-.11 2.66-1.8 3.73-2.52.68.1 1.38.15 2.08.15 5.523 0 10-3.477 10-7.7C22 6.477 17.523 3 12 3z" />
     </svg>
   );
 }
 
-function PhoneGlyph() {
+function PhoneGlyph({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className ?? "h-5 w-5"} aria-hidden="true">
       <path d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1A18 18 0 013 4c0-.6.4-1 1-1h3.5c.5 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z" />
     </svg>
   );
 }
 
-function MailGlyph() {
+function MailGlyph({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className ?? "h-5 w-5"} aria-hidden="true">
       <path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm9 8.4L4.2 7.2H3v.6l9 7.2 9-7.2v-.6h-1.2L12 13.4z" />
     </svg>
   );
