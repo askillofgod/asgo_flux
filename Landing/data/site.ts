@@ -27,8 +27,7 @@ export const SITE = {
   },
 
   contact: {
-    // TODO: 실제 카카오톡 채널/오픈채팅 URL 로 교체 (현재 더미)
-    kakaoUrl: "https://pf.kakao.com/_placeholder/chat",
+    kakaoUrl: "https://pf.kakao.com/_rVGxjX/chat",
     email: "xxxaskillofgodxxx@gmail.com",
     phone: "010-2835-5878",
     phoneTel: "010-2835-5878",
