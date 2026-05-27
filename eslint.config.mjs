@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // 자체 Next.js 프로젝트로 분리된 폴더
+    "Landing/**",
+    "xxx/**",
   ]),
 ]);
 
