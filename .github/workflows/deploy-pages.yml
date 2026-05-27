@@ -30,11 +30,29 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - name: Install dependencies
+      # --- Root site (asog_flux) -> served at /asgoflux/ ---
+      - name: Install dependencies (root)
         run: npm ci
 
-      - name: Build
+      - name: Build root site
         run: npm run build
+
+      # --- Landing page -> served at /asgoflux/landing/ ---
+      - name: Install dependencies (landing)
+        working-directory: Landing
+        run: npm ci
+
+      - name: Build landing site
+        working-directory: Landing
+        env:
+          NEXT_PUBLIC_BASE_PATH: "/asgoflux/landing"
+        run: npm run build
+
+      - name: Merge landing into root out/
+        run: |
+          rm -rf out/landing
+          mkdir -p out/landing
+          cp -R Landing/out/. out/landing/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
