@@ -8,8 +8,22 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  *   - NEXT_PUBLIC_SUPABASE_URL
  *   - NEXT_PUBLIC_SUPABASE_ANON_KEY
  */
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+/**
+ * Cloudflare 등 env 입력 실수로 `/rest/v1` 또는 후행 슬래시가 붙어 들어와도
+ * supabase-js 가 내부에서 다시 `/rest/v1/<table>` 을 붙이며 경로가 중복되어
+ * 404 가 나는 사고를 막기 위해 base URL 로 정규화한다.
+ */
+function normalizeSupabaseUrl(raw: string): string {
+  return raw
+    .trim()
+    .replace(/\/+$/, "")
+    .replace(/\/rest\/v\d+$/i, "");
+}
+
+const SUPABASE_URL = normalizeSupabaseUrl(
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
+);
+const SUPABASE_ANON_KEY = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "").trim();
 
 export const supabase: SupabaseClient | null =
   SUPABASE_URL && SUPABASE_ANON_KEY
