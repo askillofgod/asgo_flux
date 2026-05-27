@@ -27,10 +27,11 @@ export const SITE = {
   },
 
   contact: {
-    kakaoUrl: "https://open.kakao.com/o/your-channel",
-    email: "hello@asog.kr",
-    phone: "010-0000-0000",
-    phoneTel: "01000000000",
+    // TODO: 실제 카카오톡 채널/오픈채팅 URL 로 교체 (현재 더미)
+    kakaoUrl: "https://pf.kakao.com/_placeholder/chat",
+    email: "xxxaskillofgodxxx@gmail.com",
+    phone: "010-2835-5878",
+    phoneTel: "010-2835-5878",
   },
 
   cta: {
