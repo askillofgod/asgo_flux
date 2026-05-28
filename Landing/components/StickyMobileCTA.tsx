@@ -2,41 +2,39 @@
 
 import { SITE } from "@/data/site";
 
+/**
+ * 모바일 하단 고정 CTA.
+ *  - 완전 불투명 흰 배경
+ *  - 위쪽 gradient/페이드/블러/그림자 없음
+ *  - 상단 얇은 보더로만 콘텐츠와 분리
+ *  - safe-area-inset 대응
+ */
 export default function StickyMobileCTA() {
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-40 md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 bg-white border-t border-neutral-200 md:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
-      {/* 상단 부드러운 페이드 (콘텐츠와 시각적 연결) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 -top-6 h-6 bg-gradient-to-t from-white to-transparent"
-      />
-
-      {/* 흰색 솔리드 바 (투명도 제거) */}
-      <div className="bg-white border-t border-[var(--border)] shadow-[0_-10px_28px_-14px_rgba(10,15,31,0.18)]">
-        <div className="mx-auto flex max-w-md gap-2 px-3 py-3">
-          <a
-            href={SITE.contact.kakaoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-event="cta_sticky_kakao_click"
-            className="flex-1 inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[var(--kakao)] text-[var(--kakao-text)] text-[15px] font-bold shadow-[0_10px_24px_-12px_rgba(254,229,0,0.7)]"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
-              <path d="M12 3C6.477 3 2 6.477 2 10.77c0 2.77 1.86 5.197 4.66 6.57-.21.73-.76 2.69-.87 3.12-.14.53.19.52.4.38.17-.11 2.66-1.8 3.73-2.52.68.1 1.38.15 2.08.15 5.523 0 10-3.477 10-7.7C22 6.477 17.523 3 12 3z" />
-            </svg>
-            카카오 상담
-          </a>
-          <a
-            href="#contact"
-            data-event="cta_sticky_primary_click"
-            className="flex-1 inline-flex h-[52px] items-center justify-center rounded-xl bg-[linear-gradient(135deg,#3b82f6,#2563eb_60%,#1d4ed8)] text-white text-[15px] font-bold shadow-[0_12px_28px_-12px_rgba(37,99,235,0.65)]"
-          >
-            무료 상담 신청
-          </a>
-        </div>
+      <div className="mx-auto flex max-w-md gap-2 px-3 py-3">
+        <a
+          href={SITE.contact.kakaoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-event="cta_sticky_kakao_click"
+          className="flex-1 inline-flex h-[52px] items-center justify-center gap-2 rounded-xl bg-[var(--kakao)] text-[var(--kakao-text)] text-[15px] font-bold shadow-[0_10px_24px_-12px_rgba(254,229,0,0.7)]"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
+            <path d="M12 3C6.477 3 2 6.477 2 10.77c0 2.77 1.86 5.197 4.66 6.57-.21.73-.76 2.69-.87 3.12-.14.53.19.52.4.38.17-.11 2.66-1.8 3.73-2.52.68.1 1.38.15 2.08.15 5.523 0 10-3.477 10-7.7C22 6.477 17.523 3 12 3z" />
+          </svg>
+          카카오 상담
+        </a>
+        <a
+          href="#contact"
+          data-event="cta_sticky_primary_click"
+          className="flex-1 inline-flex h-[52px] items-center justify-center rounded-xl bg-[linear-gradient(135deg,#3b82f6,#2563eb_60%,#1d4ed8)] text-white text-[15px] font-bold shadow-[0_12px_28px_-12px_rgba(37,99,235,0.65)]"
+        >
+          무료 상담 신청
+        </a>
       </div>
     </div>
   );
