@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * 인앱브라우저(카카오/당근/인스타/페북 등)에서 페이지가 열렸을 때
- * 외부 브라우저 이용을 권장하는 작은 중앙 카드 팝업.
- *
- * 동작:
- *  - Android: intent://... ;package=com.android.chrome 시도
- *  - iOS:     googlechromes://... (Chrome URL Scheme) 시도
+ * 인앱브라우저 안내 — 하단 떠 있는 카드형 팝업.
+ *  - 화면 전체를 덮지 않음. 좌우 16px 여백 + max-w-[420px]
+ *  - 모바일에선 sticky CTA 위로 92px 띄움
+ *  - 배경 dim 약하게 (bg-black/35), backdrop-blur 없음
+ *  - Android: intent://... ;package=com.android.chrome
+ *  - iOS:     googlechromes://...  (Chrome URL Scheme)
  *  - 실패 시 주소 복사 폴백
  */
 
@@ -182,85 +182,102 @@ export default function InAppBrowserNotice() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="iab-title"
-      className="fixed inset-0 z-[60] flex items-center justify-center px-4"
+      className="fixed inset-0 z-[60]"
     >
+      {/* dim — 뒤 콘텐츠가 보이도록 약하게 */}
       <button
         type="button"
         aria-label="닫기"
         onClick={dismiss}
-        className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/35"
       />
 
-      <div className="relative w-full max-w-[360px] rounded-2xl border border-[var(--border)] bg-white p-5 shadow-2xl">
-        <button
-          type="button"
-          onClick={dismiss}
-          aria-label="안내 닫기"
-          data-event="cta_inapp_notice_dismiss"
-          className="absolute top-2 right-2 inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--bg-soft)]"
-        >
-          <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
-            <path
-              fillRule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
+      {/* 하단 떠 있는 카드 — sticky CTA 위로 띄움 */}
+      <div
+        className="absolute inset-x-0 px-4 md:bottom-8"
+        style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 92px)" }}
+      >
+        <div className="relative mx-auto max-w-[420px] rounded-[28px] bg-white shadow-2xl px-6 py-7 text-center">
+          <button
+            type="button"
+            onClick={dismiss}
+            aria-label="안내 닫기"
+            data-event="cta_inapp_notice_dismiss"
+            className="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--bg-soft)]"
+          >
+            <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
 
-        <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-cyan)] text-white shadow-[0_8px_18px_-10px_rgba(37,99,235,0.55)]">
-          <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
-            <path d="M14 3a1 1 0 100 2h3.586l-9.293 9.293a1 1 0 101.414 1.414L19 6.414V10a1 1 0 102 0V4a1 1 0 00-1-1h-6zM5 5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5a1 1 0 10-2 0v5H5V7h5a1 1 0 100-2H5z" />
-          </svg>
+          <div className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)]/[0.10] text-[var(--accent)]">
+            <GlobeIcon />
+          </div>
+
+          <h2
+            id="iab-title"
+            className="mt-4 text-[18px] font-extrabold tracking-tight text-[var(--primary)]"
+          >
+            더 편하게 보기
+          </h2>
+
+          <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-soft)]">
+            현재 앱 내 브라우저에서는 화면이 다르게 보일 수 있어요. 외부 브라우저에서 여는 것을 추천드려요.
+          </p>
+
+          {/* Primary — 외부 브라우저 열기 */}
+          <button
+            type="button"
+            onClick={openExternal}
+            disabled={openState === "opening"}
+            data-event="cta_inapp_notice_open_external"
+            className="mt-6 inline-flex h-[54px] w-full items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#3b82f6,#2563eb_55%,#1d4ed8)] px-5 text-[15px] font-bold text-white shadow-[0_12px_28px_-12px_rgba(37,99,235,0.55)] hover:brightness-[1.05] active:brightness-95 disabled:opacity-70 disabled:cursor-progress transition"
+          >
+            {openState === "opening" ? <Spinner /> : <ExternalIcon />}
+            {openState === "opening" ? "외부 브라우저 여는 중..." : "외부 브라우저 열기"}
+          </button>
+
+          {/* Secondary — 주소 복사하기 */}
+          <button
+            type="button"
+            onClick={copyUrl}
+            aria-live="polite"
+            data-event="cta_inapp_notice_copy"
+            className={[
+              "mt-2.5 inline-flex h-[54px] w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-[15px] font-bold transition-colors",
+              openFailed && copyState !== "copied"
+                ? "border border-[var(--accent)] text-[var(--accent)] shadow-[0_0_0_3px_rgba(37,99,235,0.12)]"
+                : "border border-[var(--border-strong)] text-[var(--primary)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
+            ].join(" ")}
+          >
+            {copyState === "copied" ? <Check /> : <CopyIcon />}
+            {copyState === "copied"
+              ? "주소가 복사되었습니다"
+              : copyState === "error"
+              ? "복사 실패"
+              : "주소 복사하기"}
+          </button>
+
+          <p className="mt-4 text-[12px] leading-relaxed text-[var(--text-muted)]">
+            열리지 않으면 주소를 복사해 브라우저 주소창에 붙여넣어 주세요.
+          </p>
         </div>
-
-        <h2
-          id="iab-title"
-          className="mt-3 text-[16.5px] font-extrabold tracking-tight text-[var(--primary)]"
-        >
-          외부 브라우저 이용 안내
-        </h2>
-
-        <p className="mt-1.5 text-[13.5px] leading-relaxed text-[var(--text-soft)]">
-          현재 앱 안에서 열려 일부 화면이 다르게 보일 수 있습니다. 정확한 화면 확인을 위해 외부 브라우저 이용을 권장합니다.
-        </p>
-
-        <p className="mt-3 rounded-lg bg-[var(--bg-soft)] border border-[var(--border)] px-3 py-2 text-[12px] leading-relaxed text-[var(--text-muted)]">
-          Chrome이 설치되어 있으면 외부 브라우저로 이동합니다. 열리지 않으면 주소를 복사해 Chrome 또는 Safari 주소창에 붙여넣어 주세요.
-        </p>
-
-        <button
-          type="button"
-          onClick={openExternal}
-          disabled={openState === "opening"}
-          data-event="cta_inapp_notice_open_external"
-          className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#3b82f6,#2563eb_55%,#1d4ed8)] px-4 text-[14px] font-bold text-white shadow-[0_10px_22px_-12px_rgba(37,99,235,0.55)] hover:brightness-[1.05] active:brightness-95 disabled:opacity-70 disabled:cursor-progress transition"
-        >
-          {openState === "opening" ? <Spinner /> : <ExternalIcon />}
-          {openState === "opening" ? "외부 브라우저 여는 중..." : "외부 브라우저 열기"}
-        </button>
-
-        <button
-          type="button"
-          onClick={copyUrl}
-          aria-live="polite"
-          data-event="cta_inapp_notice_copy"
-          className={[
-            "mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white px-4 text-[14px] font-bold transition-colors",
-            openFailed && copyState !== "copied"
-              ? "border border-[var(--accent)] text-[var(--accent)] shadow-[0_0_0_3px_rgba(37,99,235,0.12)]"
-              : "border border-[var(--border-strong)] text-[var(--primary)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
-          ].join(" ")}
-        >
-          {copyState === "copied" ? <Check /> : <CopyIcon />}
-          {copyState === "copied"
-            ? "주소가 복사되었습니다"
-            : copyState === "error"
-            ? "복사 실패"
-            : "주소 복사하기"}
-        </button>
       </div>
     </div>
+  );
+}
+
+function GlobeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-6 w-6" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9z" />
+    </svg>
   );
 }
 
