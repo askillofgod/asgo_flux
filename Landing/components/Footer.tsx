@@ -11,12 +11,15 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
           <div className="flex flex-col gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
+            {/* Header 로고와 동일한 src(SITE.logo) + 동일 원본 비율(729x164).
+                Footer 용으로 크기만 작게 + flex stretch 방지(self-start) +
+                object-contain 으로 비율 보존 */}
             <img
               src={SITE.logo}
               alt={SITE.name}
               width={729}
               height={164}
-              className="h-4 sm:h-[18px] w-auto select-none"
+              className="block self-start h-5 sm:h-6 w-auto object-contain select-none"
               draggable={false}
             />
             <p className="text-[13px] text-white/65 leading-relaxed">
