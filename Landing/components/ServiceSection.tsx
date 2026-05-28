@@ -17,7 +17,7 @@ export default function ServiceSection() {
         <SectionTitle
           eyebrow="SERVICE"
           title={"필요한 만큼만,\n빠르게 만들어 드립니다."}
-          description="ASOG 정찰제 홈페이지 제작소는 디자인 스튜디오가 아니라 ‘소상공인을 위한 홈페이지 제작 가게’를 지향합니다."
+          description="ASOG 웹 클리닉은 디자인 스튜디오가 아니라 ‘소상공인을 위한 홈페이지 제작 가게’를 지향합니다."
         />
 
         <div className="mt-14 sm:mt-16 grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">

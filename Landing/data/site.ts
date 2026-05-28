@@ -3,17 +3,18 @@
  * 가격/문구 변경 시 가장 먼저 수정하는 파일.
  */
 export const SITE = {
-  name: "ASOG 정찰제 홈페이지 제작소",
+  name: "ASOG 웹 클리닉",
   brandShort: "ASOG",
-  tagline: "가격이 투명한 AI 웹디자인 스튜디오",
+  tagline: "가격이 먼저 보이는 정찰제 웹 제작",
+  brandDescription: "ASOG 웹 클리닉: 가격이 먼저 보이는 정찰제 웹 제작",
+  logo: "/logo.png",
 
   url: "https://asog-landing.pages.dev",
   ogImage: "/og-image.png",
 
-  metaTitle:
-    "정찰제 홈페이지 제작 | AI 웹디자인 스튜디오 ASOG",
+  metaTitle: "정찰제 홈페이지 제작 | ASOG 웹 클리닉",
   metaDescription:
-    "ASOG는 소상공인·자영업자·1인사업자를 위한 정찰제 홈페이지 제작소입니다. 원페이지 홈페이지·광고 랜딩페이지·상세페이지·기본형 웹사이트를 투명한 가격으로 제작합니다.",
+    "ASOG 웹 클리닉은 소상공인·자영업자·1인사업자를 위한 정찰제 홈페이지 제작 서비스입니다. 원페이지 홈페이지·광고 랜딩페이지·상세페이지·기본형 웹사이트를 투명한 가격으로 제작합니다.",
   keywords: [
     "홈페이지 제작",
     "홈페이지 제작 비용",

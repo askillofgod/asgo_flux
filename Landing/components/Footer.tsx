@@ -8,17 +8,20 @@ export default function Footer() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-cyan)]/40 to-transparent"
       />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-          <div className="flex items-start gap-3">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--accent-cyan)] to-[var(--accent)] text-white text-sm font-black">
-              A
-            </span>
-            <div>
-              <p className="text-white font-extrabold tracking-tight">{SITE.name}</p>
-              <p className="mt-0.5 text-[13px] text-white/55">
-                소상공인·자영업자를 위한 정찰제 홈페이지 제작
-              </p>
-            </div>
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+          <div className="flex flex-col gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={SITE.logo}
+              alt={SITE.name}
+              width={729}
+              height={164}
+              className="h-8 sm:h-9 w-auto select-none"
+              draggable={false}
+            />
+            <p className="text-[13px] text-white/65 leading-relaxed">
+              {SITE.brandDescription}
+            </p>
           </div>
           <div className="flex flex-col sm:items-end gap-1.5 text-[13.5px]">
             <a

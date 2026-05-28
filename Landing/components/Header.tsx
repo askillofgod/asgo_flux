@@ -31,17 +31,22 @@ export default function Header() {
       ].join(" ")}
     >
       <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-5 sm:px-6">
-        <a href="#top" className="group flex items-center gap-2.5">
-          <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--accent-cyan)] to-[var(--accent)] text-white text-[15px] font-black shadow-[0_6px_18px_-4px_rgba(37,99,235,0.55)]">
-            A
-          </span>
-          <span className="flex flex-col leading-tight">
-            <span className="text-[16px] font-extrabold text-white tracking-tight">
-              ASOG
-            </span>
-            <span className="hidden sm:block text-[10.5px] font-semibold tracking-wider text-white/55 uppercase">
-              정찰제 홈페이지 제작소
-            </span>
+        <a
+          href="#top"
+          aria-label={`${SITE.name} 홈으로`}
+          className="group flex flex-col items-start gap-0.5 leading-tight"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={SITE.logo}
+            alt={SITE.name}
+            width={729}
+            height={164}
+            className="h-6 sm:h-7 w-auto select-none"
+            draggable={false}
+          />
+          <span className="hidden md:block text-[10.5px] font-medium tracking-tight text-white/55">
+            {SITE.tagline}
           </span>
         </a>
 
