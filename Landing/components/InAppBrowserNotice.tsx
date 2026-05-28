@@ -6,11 +6,12 @@ import { useEffect, useRef, useState } from "react";
  * 인앱브라우저(카카오톡/당근/인스타/페북 등)에서 페이지가 열렸을 때
  * 외부 브라우저로 열도록 안내하는 bottom sheet 팝업.
  *
- * 우선 외부 브라우저 열기를 시도하고, 실패하면 주소 복사 폴백으로 동작.
+ * 버튼 2개:
+ *  1) 외부 브라우저 열기  — Android intent / iOS window.open 시도
+ *  2) 주소 복사하기       — navigator.clipboard (+ textarea 폴백)
  *
- * - User-Agent 기반 감지 (보수적: 명확한 인앱 시그니처만 매칭)
- * - sessionStorage 로 같은 세션 동안 재노출 방지
- * - SSR 안전: window/navigator 접근은 useEffect/이벤트 핸들러 안
+ * iOS 사용자에게는 OS 정책상 자동 외부 이동이 막힐 수 있어
+ * 우측 상단 ⋯ → "Safari에서 열기" 안내 문구를 추가로 노출.
  */
 
 const PATTERNS: RegExp[] = [
@@ -28,13 +29,15 @@ const PATTERNS: RegExp[] = [
 
 const STORAGE_KEY = "asog:inapp-notice-dismissed";
 
-type ButtonState = "idle" | "opening" | "copied" | "error";
+type OpenState = "idle" | "opening";
+type CopyState = "idle" | "copied" | "error";
+type OS = "android" | "ios" | "other";
 
 function isInAppBrowser(ua: string): boolean {
   return PATTERNS.some((p) => p.test(ua));
 }
 
-function detectOS(ua: string): "android" | "ios" | "other" {
+function detectOS(ua: string): OS {
   if (/Android/i.test(ua)) return "android";
   if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
   return "other";
@@ -69,7 +72,9 @@ async function copyUrlToClipboard(): Promise<boolean> {
 
 export default function InAppBrowserNotice() {
   const [visible, setVisible] = useState(false);
-  const [state, setState] = useState<ButtonState>("idle");
+  const [os, setOs] = useState<OS>("other");
+  const [openState, setOpenState] = useState<OpenState>("idle");
+  const [copyState, setCopyState] = useState<CopyState>("idle");
   const intentTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -80,10 +85,10 @@ export default function InAppBrowserNotice() {
       /* storage 비활성 환경 */
     }
     const ua = window.navigator?.userAgent ?? "";
+    setOs(detectOS(ua));
     if (isInAppBrowser(ua)) setVisible(true);
   }, []);
 
-  // 정리
   useEffect(() => {
     return () => {
       if (intentTimerRef.current != null) {
@@ -103,21 +108,14 @@ export default function InAppBrowserNotice() {
     setVisible(false);
   };
 
-  const fallbackToCopy = async () => {
-    const ok = await copyUrlToClipboard();
-    setState(ok ? "copied" : "error");
-  };
-
-  const openExternal = async () => {
-    if (state === "opening") return;
-    setState("opening");
+  const openExternal = () => {
+    if (openState === "opening") return;
+    setOpenState("opening");
 
     const ua = navigator.userAgent;
-    const os = detectOS(ua);
+    const detected: OS = detectOS(ua);
 
-    if (os === "android") {
-      // Chrome intent. 성공 시 페이지가 백그라운드로 가서 visibilityState 가 hidden 됨.
-      // 일정 시간 이후에도 여전히 visible 이면 실패로 간주하고 복사 폴백.
+    if (detected === "android") {
       let didLeave = false;
       const onVis = () => {
         if (document.visibilityState === "hidden") didLeave = true;
@@ -133,50 +131,44 @@ export default function InAppBrowserNotice() {
         console.error("[InAppBrowserNotice] intent failed:", e);
       }
 
-      intentTimerRef.current = window.setTimeout(async () => {
+      intentTimerRef.current = window.setTimeout(() => {
         document.removeEventListener("visibilitychange", onVis);
-        if (!didLeave && document.visibilityState !== "hidden") {
-          await fallbackToCopy();
-        } else {
-          // Chrome 으로 빠져나갔거나 빠져나갔다가 돌아옴 — 굳이 복사하지 않음
-          setState("idle");
-        }
+        // 페이지를 벗어났든 안 벗어났든, 버튼 상태는 idle 로 복귀
+        // (실패 케이스에서 사용자가 "주소 복사하기" 버튼을 누를 수 있도록)
+        setOpenState("idle");
+        void didLeave;
       }, 1600);
       return;
     }
 
-    if (os === "ios") {
-      // iOS 는 정책상 외부 Safari 강제 실행이 막혀 있는 경우가 많음.
-      // 새 탭 시도 후 실패 시 복사 폴백.
+    if (detected === "ios") {
       try {
         const opened = window.open(
           window.location.href,
           "_blank",
           "noopener,noreferrer"
         );
-        if (opened) {
-          // 시도 자체는 성공 — 다만 인앱 내부에서 새 창이 열렸을 수도 있음.
-          // 사용자가 다시 돌아오면 idle 로 두고, 안 돌아오면 어차피 leave 됨.
-          setState("idle");
-          return;
-        }
+        // 결과와 무관하게 잠시 후 idle 로 복귀.
+        // (iOS 는 결과 신뢰도가 낮아 visibilitychange 검사도 의미가 적음)
+        intentTimerRef.current = window.setTimeout(() => {
+          setOpenState("idle");
+        }, 1200);
+        void opened;
       } catch (e) {
         console.error("[InAppBrowserNotice] window.open failed:", e);
+        setOpenState("idle");
       }
-      await fallbackToCopy();
       return;
     }
 
-    // 그 외 환경 — 곧장 복사
-    await fallbackToCopy();
+    // 기타 환경 — 곧장 idle 복귀
+    setOpenState("idle");
   };
 
-  const buttonLabel =
-    state === "copied"
-      ? "주소가 복사되었습니다"
-      : state === "opening"
-      ? "외부 브라우저 여는 중..."
-      : "외부 브라우저 열기";
+  const copyUrl = async () => {
+    const ok = await copyUrlToClipboard();
+    setCopyState(ok ? "copied" : "error");
+  };
 
   return (
     <div
@@ -229,24 +221,56 @@ export default function InAppBrowserNotice() {
           현재 앱 안에서 페이지가 열려 글자 크기나 화면 비율이 다르게 보일 수 있습니다. 정확한 화면으로 보려면 아래 버튼으로 외부 브라우저에서 열어주세요.
         </p>
 
+        {os === "ios" && (
+          <div
+            role="note"
+            className="mt-4 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/[0.06] px-4 py-3"
+          >
+            <p className="flex items-center gap-1.5 text-[12.5px] font-bold tracking-wide text-[var(--accent-strong)] uppercase">
+              <InfoIcon />
+              iPhone 사용자
+            </p>
+            <p className="mt-1.5 text-[13.5px] leading-relaxed text-[var(--text-soft)]">
+              iPhone에서는 외부 브라우저가 자동으로 열리지 않을 수 있습니다. 우측 상단 <span className="inline-block px-1 font-bold">⋯</span> 또는 공유 버튼을 누른 뒤 <strong className="font-bold">“Safari에서 열기”</strong>를 선택해 주세요.
+            </p>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--text-muted)]">
+              열리지 않으면 아래 <strong className="font-semibold">주소 복사하기</strong>를 눌러 Safari/Chrome 주소창에 붙여넣어 주세요.
+            </p>
+          </div>
+        )}
+
+        {/* Primary — 외부 브라우저 열기 */}
         <button
           type="button"
           onClick={openExternal}
-          disabled={state === "opening"}
-          aria-live="polite"
+          disabled={openState === "opening"}
           data-event="cta_inapp_notice_open_external"
           className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#3b82f6,#2563eb_55%,#1d4ed8)] px-5 text-[15.5px] font-bold text-white shadow-[0_12px_28px_-12px_rgba(37,99,235,0.55)] hover:brightness-[1.05] active:brightness-95 disabled:opacity-70 disabled:cursor-progress transition"
         >
-          {state === "copied" ? <Check /> : state === "opening" ? <Spinner /> : <ExternalIcon />}
-          {buttonLabel}
+          {openState === "opening" ? <Spinner /> : <ExternalIcon />}
+          {openState === "opening" ? "외부 브라우저 여는 중..." : "외부 브라우저 열기"}
         </button>
 
-        <p className="mt-3 text-center text-[12.5px] text-[var(--text-muted)] leading-relaxed">
-          {state === "copied"
+        {/* Secondary — 주소 복사하기 */}
+        <button
+          type="button"
+          onClick={copyUrl}
+          aria-live="polite"
+          data-event="cta_inapp_notice_copy"
+          className="mt-2.5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-[15px] font-bold text-[var(--primary)] border border-[var(--border-strong)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+        >
+          {copyState === "copied" ? <Check /> : <CopyIcon />}
+          {copyState === "copied"
+            ? "주소가 복사되었습니다"
+            : copyState === "error"
+            ? "복사 실패 — 다시 시도"
+            : "주소 복사하기"}
+        </button>
+
+        <p className="mt-3 text-center text-[12px] text-[var(--text-muted)] leading-relaxed">
+          {copyState === "copied"
             ? "Safari 또는 Chrome 주소창에 붙여넣어 주세요."
-            : state === "error"
-            ? "주소 복사에 실패했어요. 직접 주소창에 입력해 주세요."
-            : "열리지 않으면 주소를 복사해 Safari 또는 Chrome 주소창에 붙여넣어 주세요."}
+            : "열리지 않으면 주소 복사하기를 사용해 주세요."}
         </p>
       </div>
     </div>
@@ -257,6 +281,14 @@ function ExternalIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-4 w-4">
       <path d="M13 3a1 1 0 100 2h1.586l-5.293 5.293a1 1 0 101.414 1.414L16 6.414V8a1 1 0 102 0V4a1 1 0 00-1-1h-4zM4 5a1 1 0 011-1h3a1 1 0 110 2H6v8h8v-2a1 1 0 112 0v3a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+    </svg>
+  );
+}
+
+function CopyIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-4 w-4">
+      <path d="M7 3h7a1 1 0 011 1v1h1a1 1 0 011 1v10a1 1 0 01-1 1H9a1 1 0 01-1-1v-1H7a1 1 0 01-1-1V4a1 1 0 011-1zm1 2v9h1V6h6V5H8zm3 2v9h7V7h-7z" />
     </svg>
   );
 }
@@ -278,6 +310,14 @@ function Spinner() {
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-4 w-4 animate-spin">
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-30" />
       <path d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function InfoIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className="h-3.5 w-3.5">
+      <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 6h2v2H9V6zm0 4h2v6H9v-6z" />
     </svg>
   );
 }
