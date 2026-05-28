@@ -94,15 +94,20 @@ export default function PricingCard({ product }: Props) {
       <div className="mt-5">
         {hasEvent && product.eventLabel && (
           <span
-            className="inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[11px] font-bold tracking-wide border"
+            className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11.5px] font-bold tracking-wide border"
             style={{
               backgroundColor: theme.accentSoft,
               color: theme.accent,
-              borderColor: `${theme.accent}55`,
+              borderColor: `${theme.accent}66`,
             }}
           >
-            <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-current" />
-            {product.eventLabel}
+            <span
+              aria-hidden="true"
+              className="inline-block h-1.5 w-1.5 rounded-full bg-current animate-pulse"
+            />
+            <span className="font-black">이벤트 할인중</span>
+            <span className="opacity-60">·</span>
+            <span>{product.eventLabel}</span>
           </span>
         )}
 
