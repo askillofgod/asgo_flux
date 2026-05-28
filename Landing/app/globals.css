@@ -193,7 +193,7 @@ body {
   color: transparent;
 }
 
-/* 추천 카드 글로우 링 */
+/* 테마 가변 글로우 링 — --ring-gradient / --ring-glow-color 로 카드별 색상 주입 */
 .ring-glow { position: relative; isolation: isolate; }
 .ring-glow::before {
   content: "";
@@ -201,7 +201,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
-  background: linear-gradient(135deg, #38bdf8, #2563eb 55%, #6366f1 100%);
+  background: var(--ring-gradient, linear-gradient(135deg, #38bdf8, #2563eb 55%, #6366f1 100%));
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -215,7 +215,7 @@ body {
   position: absolute;
   inset: -32px;
   border-radius: inherit;
-  background: radial-gradient(55% 55% at 50% 40%, rgba(56, 189, 248, 0.32), transparent 70%);
+  background: radial-gradient(55% 55% at 50% 40%, var(--ring-glow-color, rgba(56, 189, 248, 0.32)), transparent 70%);
   filter: blur(36px);
   z-index: -1;
   pointer-events: none;
