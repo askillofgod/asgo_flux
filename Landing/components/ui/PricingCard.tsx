@@ -6,7 +6,9 @@ type Props = {
 
 export default function PricingCard({ product }: Props) {
   const highlight = product.highlight === true;
-  const priceNum = product.price.replace(/[^0-9]/g, "");
+  const hasEvent = Boolean(product.eventPrice);
+  const displayPrice = hasEvent ? product.eventPrice! : product.price;
+  const priceNum = displayPrice.replace(/[^0-9]/g, "");
 
   return (
     <div
@@ -34,14 +36,53 @@ export default function PricingCard({ product }: Props) {
       <h3 className="text-h3 tracking-tight">{product.name}</h3>
 
       <div className="mt-5">
-        <div className="flex items-baseline gap-2">
-          <span className={`text-price ${highlight ? "text-white" : "text-[var(--primary)]"}`}>
+        {hasEvent && product.eventLabel && (
+          <span
+            className={[
+              "inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[11px] font-bold tracking-wide",
+              highlight
+                ? "bg-[var(--accent-cyan)]/20 text-[var(--accent-cyan)] border border-[var(--accent-cyan)]/30"
+                : "bg-[var(--accent)]/[0.10] text-[var(--accent-strong)] border border-[var(--accent)]/20",
+            ].join(" ")}
+          >
+            <CarrotDot />
+            {product.eventLabel}
+          </span>
+        )}
+
+        {hasEvent && (
+          <p
+            className={[
+              "mt-2 text-[14px] line-through",
+              highlight ? "text-white/45" : "text-[var(--text-muted)]",
+            ].join(" ")}
+          >
+            정가 {product.price}
+          </p>
+        )}
+
+        <div className={hasEvent ? "mt-0.5 flex items-baseline gap-2" : "mt-2 flex items-baseline gap-2"}>
+          <span
+            className={[
+              "text-price leading-none",
+              highlight
+                ? "text-white"
+                : hasEvent
+                ? "text-[var(--accent-strong)]"
+                : "text-[var(--primary)]",
+            ].join(" ")}
+          >
             {priceNum}
           </span>
           <span
-            className={`text-[20px] sm:text-[24px] font-extrabold ${
-              highlight ? "text-white" : "text-[var(--primary)]"
-            }`}
+            className={[
+              "text-[20px] sm:text-[24px] font-extrabold",
+              highlight
+                ? "text-white"
+                : hasEvent
+                ? "text-[var(--accent-strong)]"
+                : "text-[var(--primary)]",
+            ].join(" ")}
           >
             만 원
           </span>
@@ -108,5 +149,12 @@ function Sparkle() {
     <svg viewBox="0 0 24 24" fill="currentColor" className="h-3 w-3" aria-hidden="true">
       <path d="M12 2l1.6 5.6L19 9l-5.4 1.4L12 16l-1.6-5.6L5 9l5.4-1.4L12 2zm7 11l.9 3 .1 1-3-1L19 13zM5 16l.7 2.4 2.3.6-2.3.7L5 22l-.7-2.3-2.3-.7 2.3-.6L5 16z" />
     </svg>
+  );
+}
+
+function CarrotDot() {
+  // 당근 상징 작은 도트 아이콘
+  return (
+    <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-current" />
   );
 }

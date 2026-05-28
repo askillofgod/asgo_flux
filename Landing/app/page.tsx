@@ -62,21 +62,40 @@ export default function Home() {
       },
       {
         "@type": "OfferCatalog",
-        name: "정찰제 홈페이지 제작 상품",
-        itemListElement: PRICING.map((p, i) => ({
-          "@type": "Offer",
-          position: i + 1,
-          name: p.name,
-          price: p.price.replace(/[^0-9]/g, "") + "0000",
-          priceCurrency: "KRW",
-          availability: "https://schema.org/InStock",
-          description: p.features.join(", "),
-          itemOffered: {
-            "@type": "Service",
+        name: "정찰제 홈페이지 제작 상품 — 당근 첫 광고 이벤트가",
+        itemListElement: PRICING.map((p, i) => {
+          const eventNum = (p.eventPrice ?? p.price).replace(/[^0-9]/g, "") + "0000";
+          const listNum = p.price.replace(/[^0-9]/g, "") + "0000";
+          const hasEvent = Boolean(p.eventPrice);
+          return {
+            "@type": "Offer",
+            position: i + 1,
             name: p.name,
-            description: p.recommendFor,
-          },
-        })),
+            price: eventNum,
+            priceCurrency: "KRW",
+            availability: "https://schema.org/InStock",
+            description: p.features.join(", "),
+            ...(hasEvent
+              ? {
+                  priceSpecification: {
+                    "@type": "PriceSpecification",
+                    price: eventNum,
+                    priceCurrency: "KRW",
+                  },
+                  // referencePrice (정가)
+                  eligibleQuantity: undefined,
+                  // schema.org 에 명시적 정가 필드는 없어 description 에 함께 노출
+                }
+              : {}),
+            highPrice: hasEvent ? listNum : undefined,
+            lowPrice: eventNum,
+            itemOffered: {
+              "@type": "Service",
+              name: p.name,
+              description: p.recommendFor,
+            },
+          };
+        }),
       },
       {
         "@type": "FAQPage",

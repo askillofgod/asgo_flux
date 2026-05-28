@@ -8,7 +8,6 @@ export default function PricingSection() {
       id="pricing"
       className="relative bg-[var(--bg-soft)] py-24 sm:py-28 md:py-32"
     >
-      {/* 윗 페이드 */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white to-transparent"
@@ -21,7 +20,27 @@ export default function PricingSection() {
           description="견적을 받느라 시간 쓰지 마세요. 모든 상품 가격을 공개합니다. (부가세 별도)"
         />
 
-        <div className="mt-16 grid gap-8 md:gap-7 md:grid-cols-3 md:items-stretch">
+        {/* 당근 첫 광고 이벤트 배너 */}
+        <div className="mx-auto mt-10 max-w-3xl">
+          <div className="relative overflow-hidden rounded-[22px] border border-[var(--accent)]/20 bg-gradient-to-br from-[var(--accent)]/[0.06] via-white to-[var(--accent-cyan)]/[0.08] px-5 py-6 sm:px-7 sm:py-7 text-center">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent-cyan)] px-3 py-1 text-[11.5px] font-bold tracking-wider text-white">
+              <span aria-hidden="true">🥕</span>
+              EVENT
+            </span>
+            <h3 className="mt-3 text-[19px] sm:text-[22px] font-extrabold tracking-tight text-[var(--primary)]">
+              당근 첫 광고 기념 이벤트
+            </h3>
+            <p className="mt-2 text-[14px] sm:text-[15px] leading-relaxed text-[var(--text-soft)]">
+              처음 광고를 시작하는 분들을 위해, 홈페이지 제작 비용을 더 낮췄습니다.
+              기존 정가는 그대로 공개하고, 이벤트 기간 동안만 특별가로 상담을 진행합니다.
+            </p>
+            <p className="mt-1.5 text-[12.5px] sm:text-[13px] text-[var(--text-muted)]">
+              이벤트 종료일은 추후 안내 예정입니다.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-8 md:gap-7 md:grid-cols-3 md:items-stretch">
           {PRICING.map((p) => (
             <PricingCard key={p.id} product={p} />
           ))}
