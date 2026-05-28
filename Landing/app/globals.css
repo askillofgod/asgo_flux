@@ -90,7 +90,8 @@ body {
    모바일 ~ 데스크탑(320px → 1280px) 사이에서 자연 보간
    ============================================ */
 .text-display {
-  font-size: clamp(2rem, 1rem + 5vw, 4.75rem);   /* 32 → 76 */
+  /* 모바일 36 → 데스크탑 80 까지 자연 확장 */
+  font-size: clamp(2.25rem, 1.1rem + 5.6vw, 5rem);
   line-height: 1.08;
   letter-spacing: -0.024em;
   font-weight: 900;
