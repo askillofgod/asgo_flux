@@ -192,18 +192,18 @@ export default function InAppBrowserNotice() {
         className="absolute inset-0 bg-black/35"
       />
 
-      {/* 하단 떠 있는 카드 — sticky CTA 위로 띄움 */}
+      {/* 하단 떠 있는 컴팩트 카드 — sticky CTA 위로 띄움 */}
       <div
         className="absolute inset-x-0 px-4 md:bottom-8"
         style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 92px)" }}
       >
-        <div className="relative mx-auto max-w-[420px] rounded-[28px] bg-white shadow-2xl px-6 py-7 text-center">
+        <div className="relative mx-auto max-w-[420px] rounded-[22px] bg-white shadow-2xl px-5 py-4 text-center">
           <button
             type="button"
             onClick={dismiss}
             aria-label="안내 닫기"
             data-event="cta_inapp_notice_dismiss"
-            className="absolute top-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--bg-soft)]"
+            className="absolute top-2 right-2 inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--bg-soft)]"
           >
             <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
               <path
@@ -214,41 +214,35 @@ export default function InAppBrowserNotice() {
             </svg>
           </button>
 
-          <div className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)]/[0.10] text-[var(--accent)]">
-            <GlobeIcon />
-          </div>
-
           <h2
             id="iab-title"
-            className="mt-4 text-[18px] font-extrabold tracking-tight text-[var(--primary)]"
+            className="text-[16px] font-extrabold tracking-tight text-[var(--primary)]"
           >
             더 편하게 보기
           </h2>
 
-          <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-soft)]">
-            현재 앱 내 브라우저에서는 화면이 다르게 보일 수 있어요. 외부 브라우저에서 여는 것을 추천드려요.
+          <p className="mt-1 text-[13px] leading-snug text-[var(--text-soft)]">
+            외부 브라우저로 보면 화면이 더 정확해요.
           </p>
 
-          {/* Primary — 외부 브라우저 열기 */}
           <button
             type="button"
             onClick={openExternal}
             disabled={openState === "opening"}
             data-event="cta_inapp_notice_open_external"
-            className="mt-6 inline-flex h-[54px] w-full items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#3b82f6,#2563eb_55%,#1d4ed8)] px-5 text-[15px] font-bold text-white shadow-[0_12px_28px_-12px_rgba(37,99,235,0.55)] hover:brightness-[1.05] active:brightness-95 disabled:opacity-70 disabled:cursor-progress transition"
+            className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,#3b82f6,#2563eb_55%,#1d4ed8)] px-5 text-[14px] font-bold text-white shadow-[0_10px_22px_-12px_rgba(37,99,235,0.55)] hover:brightness-[1.05] active:brightness-95 disabled:opacity-70 disabled:cursor-progress transition"
           >
             {openState === "opening" ? <Spinner /> : <ExternalIcon />}
-            {openState === "opening" ? "외부 브라우저 여는 중..." : "외부 브라우저 열기"}
+            {openState === "opening" ? "여는 중..." : "외부 브라우저 열기"}
           </button>
 
-          {/* Secondary — 주소 복사하기 */}
           <button
             type="button"
             onClick={copyUrl}
             aria-live="polite"
             data-event="cta_inapp_notice_copy"
             className={[
-              "mt-2.5 inline-flex h-[54px] w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-[15px] font-bold transition-colors",
+              "mt-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-white px-5 text-[14px] font-bold transition-colors",
               openFailed && copyState !== "copied"
                 ? "border border-[var(--accent)] text-[var(--accent)] shadow-[0_0_0_3px_rgba(37,99,235,0.12)]"
                 : "border border-[var(--border-strong)] text-[var(--primary)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
@@ -261,23 +255,9 @@ export default function InAppBrowserNotice() {
               ? "복사 실패"
               : "주소 복사하기"}
           </button>
-
-          <p className="mt-4 text-[12px] leading-relaxed text-[var(--text-muted)]">
-            열리지 않으면 주소를 복사해 브라우저 주소창에 붙여넣어 주세요.
-          </p>
         </div>
       </div>
     </div>
-  );
-}
-
-function GlobeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-6 w-6" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18" />
-      <path d="M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9z" />
-    </svg>
   );
 }
 
