@@ -16,7 +16,7 @@ export default function Footer() {
               alt={SITE.name}
               width={729}
               height={164}
-              className="h-8 sm:h-9 w-auto select-none"
+              className="h-4 sm:h-[18px] w-auto select-none"
               draggable={false}
             />
             <p className="text-[13px] text-white/65 leading-relaxed">
