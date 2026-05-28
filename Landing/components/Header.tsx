@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { SITE } from "@/data/site";
 
 const NAV = [
-  { href: "#pricing", label: "가격" },
-  { href: "#service", label: "서비스" },
-  { href: "#process", label: "제작 과정" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#pricing", label: "가격" },
+  { href: "/#service", label: "서비스" },
+  { href: "/#process", label: "제작 과정" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/about", label: "About" },
 ];
 
 export default function Header() {
@@ -32,7 +33,7 @@ export default function Header() {
     >
       <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-5 sm:px-6">
         <a
-          href="#top"
+          href="/"
           aria-label={`${SITE.name} 홈으로`}
           className="group flex flex-col items-start gap-0.5 leading-tight"
         >
@@ -64,7 +65,7 @@ export default function Header() {
 
         <div className="hidden md:flex items-center gap-2">
           <a
-            href="#contact"
+            href="/#contact"
             data-event="cta_header_primary_click"
             className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-5 text-[14.5px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,0.55)] hover:shadow-[0_14px_28px_-10px_rgba(37,99,235,0.7)] hover:brightness-[1.05] transition-all"
           >
@@ -103,7 +104,7 @@ export default function Header() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="/#contact"
               onClick={() => setOpen(false)}
               data-event="cta_header_mobile_primary_click"
               className="mt-2 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-5 text-[15px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(37,99,235,0.55)]"

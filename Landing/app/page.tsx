@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
 import ServiceSection from "@/components/ServiceSection";
@@ -8,10 +7,6 @@ import PortfolioSection from "@/components/PortfolioSection";
 import ProcessSection from "@/components/ProcessSection";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
-import StickyMobileCTA from "@/components/StickyMobileCTA";
-import ScrollTopButton from "@/components/ScrollTopButton";
-import InAppBrowserNotice from "@/components/InAppBrowserNotice";
 import { SITE } from "@/data/site";
 import { PRICING } from "@/data/pricing";
 import { FAQ } from "@/data/faq";
@@ -75,18 +70,6 @@ export default function Home() {
             priceCurrency: "KRW",
             availability: "https://schema.org/InStock",
             description: p.features.join(", "),
-            ...(hasEvent
-              ? {
-                  priceSpecification: {
-                    "@type": "PriceSpecification",
-                    price: eventNum,
-                    priceCurrency: "KRW",
-                  },
-                  // referencePrice (정가)
-                  eligibleQuantity: undefined,
-                  // schema.org 에 명시적 정가 필드는 없어 description 에 함께 노출
-                }
-              : {}),
             highPrice: hasEvent ? listNum : undefined,
             lowPrice: eventNum,
             itemOffered: {
@@ -114,22 +97,15 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header />
-      <main className="pb-24 md:pb-0">
-        <HeroSection />
-        <ProblemSection />
-        <ServiceSection />
-        <PricingSection />
-        <OptionSection />
-        <PortfolioSection />
-        <ProcessSection />
-        <FAQSection />
-        <ContactSection />
-      </main>
-      <Footer />
-      <StickyMobileCTA />
-      <ScrollTopButton />
-      <InAppBrowserNotice />
+      <HeroSection />
+      <ProblemSection />
+      <ServiceSection />
+      <PricingSection />
+      <OptionSection />
+      <PortfolioSection />
+      <ProcessSection />
+      <FAQSection />
+      <ContactSection />
     </>
   );
 }

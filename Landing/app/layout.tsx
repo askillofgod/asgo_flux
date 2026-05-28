@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SITE } from "@/data/site";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
+import ScrollTopButton from "@/components/ScrollTopButton";
+import InAppBrowserNotice from "@/components/InAppBrowserNotice";
 
 const SITE_URL = SITE.url;
 const OG_IMAGE = `${SITE_URL}${SITE.ogImage}`;
@@ -85,7 +90,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="min-h-screen bg-white text-[var(--text)] antialiased">
-        {children}
+        <Header />
+        <main className="pb-24 md:pb-0">{children}</main>
+        <Footer />
+        <StickyMobileCTA />
+        <ScrollTopButton />
+        <InAppBrowserNotice />
       </body>
     </html>
   );
