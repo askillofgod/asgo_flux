@@ -3,7 +3,6 @@ import ProblemSection from "@/components/ProblemSection";
 import ServiceSection from "@/components/ServiceSection";
 import PricingSection from "@/components/PricingSection";
 import OptionSection from "@/components/OptionSection";
-import SituationalSection from "@/components/SituationalSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import ProcessSection from "@/components/ProcessSection";
 import FAQSection from "@/components/FAQSection";
@@ -103,7 +102,6 @@ export default function Home() {
       <ServiceSection />
       <PricingSection />
       <OptionSection />
-      <SituationalSection />
       <PortfolioSection />
       <ProcessSection />
       <FAQSection />

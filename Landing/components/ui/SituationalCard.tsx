@@ -1,36 +1,10 @@
-import SectionTitle from "./ui/SectionTitle";
-import { SITUATIONAL, type SituationalProduct } from "@/data/situational";
+import type { SituationalProduct } from "@/data/situational";
 
-export default function SituationalSection() {
-  return (
-    <section
-      id="situational"
-      className="relative bg-white py-24 sm:py-28 md:py-32"
-    >
-      <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <SectionTitle
-          eyebrow="STANDARD"
-          title="상황별 맞춤 제작 상품"
-          description={
-            "아래 상품은 이벤트 할인 대상이 아닌 정상가 상품입니다.\n홈페이지 제작 이후 광고, 브랜딩, 상세페이지, 리뉴얼이 필요한 경우 목적에 맞춰 별도 상담 후 진행됩니다."
-          }
-        />
-
-        <div className="mt-14 sm:mt-16 grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {SITUATIONAL.map((p) => (
-            <SituationalCard key={p.id} product={p} />
-          ))}
-        </div>
-
-        <p className="mt-12 text-center text-[12.5px] sm:text-sm text-[var(--text-muted)] leading-relaxed">
-          * 가격은 모두 정상가 기준이며, 상세 견적은 상담 후 안내드립니다. 부가세 별도.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function SituationalCard({ product }: { product: SituationalProduct }) {
+/**
+ * 상황별 맞춤 제작 상품 카드 — 정상가 상품.
+ * 절대 취소선/할인 라벨/이벤트 배지를 넣지 말 것.
+ */
+export default function SituationalCard({ product }: { product: SituationalProduct }) {
   return (
     <article className="card-hover relative flex flex-col rounded-[20px] border border-[var(--border)] bg-white p-5 sm:p-6 shadow-[var(--shadow-card)]">
       {/* 상단 라인: 정상가 배지 + 제작 기간 */}

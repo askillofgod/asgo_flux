@@ -1,6 +1,8 @@
 import SectionTitle from "./ui/SectionTitle";
 import PricingCard from "./ui/PricingCard";
+import SituationalCard from "./ui/SituationalCard";
 import { PRICING } from "@/data/pricing";
+import { SITUATIONAL } from "@/data/situational";
 
 export default function PricingSection() {
   return (
@@ -40,14 +42,22 @@ export default function PricingSection() {
           </div>
         </div>
 
+        {/* 1) 대표 이벤트 상품 3개 */}
         <div className="mt-12 grid gap-8 md:gap-7 md:grid-cols-3 md:items-stretch">
           {PRICING.map((p) => (
             <PricingCard key={p.id} product={p} />
           ))}
         </div>
 
-        <p className="mt-12 text-center text-[13px] sm:text-sm text-[var(--text-muted)]">
-          * 도메인·호스팅 비용은 별도이며, 원하시는 경우 진행을 도와드립니다.
+        {/* 2) 추가 정상가 상품 8개 — 헤더 없이 같은 섹션 내에서 이어짐 */}
+        <div className="mt-14 sm:mt-16 grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {SITUATIONAL.map((p) => (
+            <SituationalCard key={p.id} product={p} />
+          ))}
+        </div>
+
+        <p className="mt-12 text-center text-[13px] sm:text-sm text-[var(--text-muted)] leading-relaxed">
+          * 도메인·호스팅 비용은 별도이며, 원하시는 경우 진행을 도와드립니다. 추가 상품은 정상가 기준이며 상세 견적은 상담 후 안내드립니다.
         </p>
       </div>
     </section>
