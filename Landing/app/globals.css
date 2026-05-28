@@ -300,8 +300,16 @@ select.input-base {
   body { line-height: 1.62; }
 }
 
+/* Hero 슬라이드 progress bar */
+@keyframes hero-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 /* 모션 줄이기 */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .card-hover:hover, .card-hover-dark:hover { transform: none; }
+  /* Hero progress bar 는 정보 전달용이므로 유지하되 즉시 채움 */
+  [data-hero-progress] { animation: none !important; transform: scaleX(1) !important; }
 }
