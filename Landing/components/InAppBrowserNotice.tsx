@@ -6,24 +6,24 @@ import { useEffect, useRef, useState } from "react";
  * 인앱브라우저(카카오톡/당근/인스타/페북 등)에서 페이지가 열렸을 때
  * 외부 브라우저로 열도록 안내하는 bottom sheet 팝업.
  *
- * 버튼 2개:
- *  1) 외부 브라우저 열기  — Android intent / iOS window.open 시도
- *  2) 주소 복사하기       — navigator.clipboard (+ textarea 폴백)
+ * 우선 외부 브라우저 시도:
+ *  - Android: intent://...#Intent;scheme=https;package=com.android.chrome;end
+ *  - iOS:     googlechromes://... (Chrome URL Scheme)
+ *  - 실패 또는 미감지 시: 주소 복사 폴백
  *
- * iOS 사용자에게는 OS 정책상 자동 외부 이동이 막힐 수 있어
- * 우측 상단 ⋯ → "Safari에서 열기" 안내 문구를 추가로 노출.
+ * iOS 사용자에게 Chrome 미설치/미열림 시 대처 안내 노출.
  */
 
 const PATTERNS: RegExp[] = [
-  /KakaoTalk/i, // 카카오톡
-  /Daangn/i,    // 당근
-  /Karrot/i,    // 당근 영문 UA
-  /Instagram/i, // 인스타그램
-  /FBAN|FBAV/,  // 페이스북
-  /Line\//,     // 라인
-  /NAVER/,      // 네이버
-  /Twitter/i,   // X(트위터)
-  /; wv\)/,     // 안드로이드 WebView 마커
+  /KakaoTalk/i,
+  /Daangn/i,
+  /Karrot/i,
+  /Instagram/i,
+  /FBAN|FBAV/,
+  /Line\//,
+  /NAVER/,
+  /Twitter/i,
+  /; wv\)/,
   /WebView/i,
 ];
 
@@ -43,6 +43,22 @@ function detectOS(ua: string): OS {
   return "other";
 }
 
+/** iOS Chrome URL Scheme 변환 */
+function toIOSChromeUrl(rawUrl: string): string {
+  try {
+    const url = new URL(rawUrl);
+    if (url.protocol === "https:") {
+      return `googlechromes://${url.host}${url.pathname}${url.search}${url.hash}`;
+    }
+    if (url.protocol === "http:") {
+      return `googlechrome://${url.host}${url.pathname}${url.search}${url.hash}`;
+    }
+    return rawUrl;
+  } catch {
+    return rawUrl;
+  }
+}
+
 async function copyUrlToClipboard(): Promise<boolean> {
   const url = window.location.href;
   try {
@@ -51,7 +67,7 @@ async function copyUrlToClipboard(): Promise<boolean> {
       return true;
     }
   } catch {
-    /* fall through to legacy */
+    /* legacy 폴백으로 */
   }
   try {
     const ta = document.createElement("textarea");
@@ -75,14 +91,15 @@ export default function InAppBrowserNotice() {
   const [os, setOs] = useState<OS>("other");
   const [openState, setOpenState] = useState<OpenState>("idle");
   const [copyState, setCopyState] = useState<CopyState>("idle");
-  const intentTimerRef = useRef<number | null>(null);
+  const [openFailed, setOpenFailed] = useState(false);
+  const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       if (window.sessionStorage.getItem(STORAGE_KEY)) return;
     } catch {
-      /* storage 비활성 환경 */
+      /* storage disabled */
     }
     const ua = window.navigator?.userAgent ?? "";
     setOs(detectOS(ua));
@@ -91,8 +108,8 @@ export default function InAppBrowserNotice() {
 
   useEffect(() => {
     return () => {
-      if (intentTimerRef.current != null) {
-        window.clearTimeout(intentTimerRef.current);
+      if (timerRef.current != null) {
+        window.clearTimeout(timerRef.current);
       }
     };
   }, []);
@@ -108,66 +125,64 @@ export default function InAppBrowserNotice() {
     setVisible(false);
   };
 
+  const tryOpenWithVisibilityCheck = (urlScheme: string, timeoutMs: number) => {
+    let didLeave = false;
+    const onVis = () => {
+      if (document.visibilityState === "hidden") didLeave = true;
+    };
+    document.addEventListener("visibilitychange", onVis);
+
+    try {
+      window.location.href = urlScheme;
+    } catch (e) {
+      console.error("[InAppBrowserNotice] navigation failed:", e);
+    }
+
+    timerRef.current = window.setTimeout(() => {
+      document.removeEventListener("visibilitychange", onVis);
+      const stillVisible =
+        !didLeave && document.visibilityState !== "hidden";
+      setOpenState("idle");
+      if (stillVisible) setOpenFailed(true);
+    }, timeoutMs);
+  };
+
   const openExternal = () => {
     if (openState === "opening") return;
     setOpenState("opening");
+    setOpenFailed(false);
 
     const ua = navigator.userAgent;
     const detected: OS = detectOS(ua);
 
     if (detected === "android") {
-      let didLeave = false;
-      const onVis = () => {
-        if (document.visibilityState === "hidden") didLeave = true;
-      };
-      document.addEventListener("visibilitychange", onVis);
-
       try {
         const u = new URL(window.location.href);
         const scheme = u.protocol.replace(":", "");
         const intentUrl = `intent://${u.host}${u.pathname}${u.search}${u.hash}#Intent;scheme=${scheme};package=com.android.chrome;end`;
-        window.location.href = intentUrl;
+        tryOpenWithVisibilityCheck(intentUrl, 1600);
       } catch (e) {
-        console.error("[InAppBrowserNotice] intent failed:", e);
-      }
-
-      intentTimerRef.current = window.setTimeout(() => {
-        document.removeEventListener("visibilitychange", onVis);
-        // 페이지를 벗어났든 안 벗어났든, 버튼 상태는 idle 로 복귀
-        // (실패 케이스에서 사용자가 "주소 복사하기" 버튼을 누를 수 있도록)
+        console.error("[InAppBrowserNotice] intent build failed:", e);
         setOpenState("idle");
-        void didLeave;
-      }, 1600);
+        setOpenFailed(true);
+      }
       return;
     }
 
     if (detected === "ios") {
-      try {
-        const opened = window.open(
-          window.location.href,
-          "_blank",
-          "noopener,noreferrer"
-        );
-        // 결과와 무관하게 잠시 후 idle 로 복귀.
-        // (iOS 는 결과 신뢰도가 낮아 visibilitychange 검사도 의미가 적음)
-        intentTimerRef.current = window.setTimeout(() => {
-          setOpenState("idle");
-        }, 1200);
-        void opened;
-      } catch (e) {
-        console.error("[InAppBrowserNotice] window.open failed:", e);
-        setOpenState("idle");
-      }
+      const chromeUrl = toIOSChromeUrl(window.location.href);
+      tryOpenWithVisibilityCheck(chromeUrl, 1500);
       return;
     }
 
-    // 기타 환경 — 곧장 idle 복귀
+    // 기타 환경
     setOpenState("idle");
   };
 
   const copyUrl = async () => {
     const ok = await copyUrlToClipboard();
     setCopyState(ok ? "copied" : "error");
+    if (ok) setOpenFailed(false);
   };
 
   return (
@@ -177,11 +192,12 @@ export default function InAppBrowserNotice() {
       aria-labelledby="iab-title"
       className="fixed inset-0 z-[60] flex items-end justify-center"
     >
+      {/* 가벼운 dim — 뒤 화면도 어느 정도 보이도록 */}
       <button
         type="button"
         aria-label="닫기"
         onClick={dismiss}
-        className="absolute inset-0 bg-black/55 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"
       />
 
       <div
@@ -228,13 +244,10 @@ export default function InAppBrowserNotice() {
           >
             <p className="flex items-center gap-1.5 text-[12.5px] font-bold tracking-wide text-[var(--accent-strong)] uppercase">
               <InfoIcon />
-              iPhone 사용자
+              iPhone에서는 Chrome 앱으로 열기를 시도합니다
             </p>
             <p className="mt-1.5 text-[13.5px] leading-relaxed text-[var(--text-soft)]">
-              iPhone에서는 외부 브라우저가 자동으로 열리지 않을 수 있습니다. 우측 상단 <span className="inline-block px-1 font-bold">⋯</span> 또는 공유 버튼을 누른 뒤 <strong className="font-bold">“Safari에서 열기”</strong>를 선택해 주세요.
-            </p>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--text-muted)]">
-              열리지 않으면 아래 <strong className="font-semibold">주소 복사하기</strong>를 눌러 Safari/Chrome 주소창에 붙여넣어 주세요.
+              Chrome이 설치되어 있으면 외부 Chrome 브라우저로 열립니다. 열리지 않으면 아래 <strong className="font-bold">“주소 복사하기”</strong>를 눌러 Chrome 또는 Safari 주소창에 붙여넣어 주세요.
             </p>
           </div>
         )}
@@ -251,13 +264,18 @@ export default function InAppBrowserNotice() {
           {openState === "opening" ? "외부 브라우저 여는 중..." : "외부 브라우저 열기"}
         </button>
 
-        {/* Secondary — 주소 복사하기 */}
+        {/* Secondary — 주소 복사하기 (실패 시 강조) */}
         <button
           type="button"
           onClick={copyUrl}
           aria-live="polite"
           data-event="cta_inapp_notice_copy"
-          className="mt-2.5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-[15px] font-bold text-[var(--primary)] border border-[var(--border-strong)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+          className={[
+            "mt-2.5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-[15px] font-bold transition-colors",
+            openFailed && copyState !== "copied"
+              ? "border border-[var(--accent)] text-[var(--accent)] shadow-[0_0_0_4px_rgba(37,99,235,0.12)]"
+              : "border border-[var(--border-strong)] text-[var(--primary)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
+          ].join(" ")}
         >
           {copyState === "copied" ? <Check /> : <CopyIcon />}
           {copyState === "copied"
@@ -270,7 +288,9 @@ export default function InAppBrowserNotice() {
         <p className="mt-3 text-center text-[12px] text-[var(--text-muted)] leading-relaxed">
           {copyState === "copied"
             ? "Safari 또는 Chrome 주소창에 붙여넣어 주세요."
-            : "열리지 않으면 주소 복사하기를 사용해 주세요."}
+            : openFailed
+            ? "외부 브라우저가 열리지 않았어요. ‘주소 복사하기’를 사용해 주세요."
+            : "열리지 않으면 ‘주소 복사하기’를 사용해 주세요."}
         </p>
       </div>
     </div>
