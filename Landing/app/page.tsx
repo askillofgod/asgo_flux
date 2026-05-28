@@ -10,6 +10,7 @@ import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
+import InAppBrowserNotice from "@/components/InAppBrowserNotice";
 import { SITE } from "@/data/site";
 import { PRICING } from "@/data/pricing";
 import { FAQ } from "@/data/faq";
@@ -107,6 +108,7 @@ export default function Home() {
       </main>
       <Footer />
       <StickyMobileCTA />
+      <InAppBrowserNotice />
     </>
   );
 }
