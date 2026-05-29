@@ -36,8 +36,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
-        width: 1254,
-        height: 1254,
+        width: 1727,
+        height: 910,
         alt: `${SITE.name} — ${SITE.tagline}`,
         type: "image/png",
       },
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
-        width: 1254,
-        height: 1254,
+        width: 1727,
+        height: 910,
         alt: `${SITE.name} — ${SITE.tagline}`,
       },
     ],
