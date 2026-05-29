@@ -116,13 +116,13 @@ export default function ContactSection() {
           description="아래 폼으로 신청해 주세요. 평일 기준 30분 내 답변드립니다. 더 빠른 상담이 필요하면 카카오톡으로 문의해 주세요."
         />
 
-        {/* 카카오톡 강조 CTA */}
+        {/* 카카오톡 강조 CTA — 글로우 제거, 플랫 */}
         <a
           href={SITE.contact.kakaoUrl}
           target="_blank"
           rel="noopener noreferrer"
           data-event="cta_contact_kakao_hero_click"
-          className="mt-10 group relative flex items-center gap-4 rounded-3xl bg-[var(--kakao)] px-6 py-5 sm:px-7 sm:py-6 shadow-[0_18px_44px_-18px_rgba(254,229,0,0.7)] hover:shadow-[0_24px_56px_-18px_rgba(254,229,0,0.85)] transition-shadow"
+          className="mt-10 group relative flex items-center gap-4 rounded-3xl bg-[var(--kakao)] px-6 py-5 sm:px-7 sm:py-6 hover:brightness-95 transition"
         >
           <span className="inline-flex h-12 w-12 sm:h-14 sm:w-14 flex-none items-center justify-center rounded-2xl bg-[#181600]/10">
             <KakaoGlyph className="h-6 w-6 sm:h-7 sm:w-7 text-[#181600]" />
@@ -140,16 +140,33 @@ export default function ContactSection() {
           </span>
         </a>
 
-        {/* 전화/이메일 카드 */}
-        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <ChannelCard
-            href={`tel:${SITE.contact.phoneTel}`}
-            event="cta_contact_phone_click"
-            label="전화 문의"
-            value={SITE.contact.phone}
-            tint="blue"
-            icon={<PhoneGlyph />}
-          />
+        {/* 전화 강조 CTA — 카카오와 같은 위계, 블루 그라데이션 */}
+        <a
+          href={`tel:${SITE.contact.phoneTel}`}
+          data-event="cta_contact_phone_hero_click"
+          className="mt-3 group relative flex items-center gap-4 rounded-3xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-6 py-5 sm:px-7 sm:py-6 hover:brightness-[1.05] active:brightness-95 transition"
+        >
+          <span className="inline-flex h-12 w-12 sm:h-14 sm:w-14 flex-none items-center justify-center rounded-2xl bg-white/15">
+            <PhoneGlyph className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
+          </span>
+          <span className="flex flex-col">
+            <span className="text-[12px] sm:text-[13px] font-bold tracking-wider uppercase text-white/75">
+              바로 통화
+            </span>
+            <span className="text-[18px] sm:text-[22px] font-black text-white leading-tight">
+              전화로 상담하기
+            </span>
+            <span className="mt-0.5 text-[12.5px] sm:text-[13px] font-semibold text-white/85">
+              {SITE.contact.phone}
+            </span>
+          </span>
+          <span className="ml-auto hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white group-hover:translate-x-1 transition-transform">
+            <ArrowRight />
+          </span>
+        </a>
+
+        {/* 이메일 — 보조 카드 */}
+        <div className="mt-3">
           <ChannelCard
             href={`mailto:${SITE.contact.email}`}
             event="cta_contact_email_click"

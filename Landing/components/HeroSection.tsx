@@ -166,12 +166,23 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* 고정: CTA */}
+          {/* 고정: CTA — 모바일은 전화 연결, 데스크탑은 #contact 스크롤 */}
           <div className="mt-9 flex flex-col sm:flex-row gap-3 sm:items-center">
+            {/* 모바일 전용 — tel: */}
+            <a
+              href={`tel:${SITE.contact.phoneTel}`}
+              aria-label="전화상담 신청"
+              data-event="cta_hero_primary_tel_click"
+              className="md:hidden inline-flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-8 text-button text-white shadow-[var(--shadow-glow)] hover:shadow-[var(--shadow-glow-strong)] hover:brightness-[1.05] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#04060f]"
+            >
+              <PhoneIconSmall />
+              전화상담 신청
+            </a>
+            {/* md+ — 기존 #contact */}
             <a
               href="#contact"
               data-event="cta_hero_primary_click"
-              className="inline-flex h-14 sm:h-[60px] w-full sm:w-auto items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-8 text-button text-white shadow-[var(--shadow-glow)] transition-all hover:shadow-[var(--shadow-glow-strong)] hover:brightness-[1.05] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#04060f]"
+              className="hidden md:inline-flex h-[60px] w-auto items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#3b82f6_0%,#2563eb_55%,#1d4ed8_100%)] px-8 text-button text-white shadow-[var(--shadow-glow)] hover:shadow-[var(--shadow-glow-strong)] hover:brightness-[1.05] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#04060f]"
             >
               {SITE.cta.primary}
               <ArrowRight />
@@ -239,6 +250,14 @@ function ArrowRight() {
         d="M10.293 4.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 010-1.414z"
         clipRule="evenodd"
       />
+    </svg>
+  );
+}
+
+function PhoneIconSmall() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-5 w-5">
+      <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.02l-2.21 2.19z" />
     </svg>
   );
 }
