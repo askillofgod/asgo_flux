@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Pretendard Variable 은 layout.tsx 에서 <link> 태그로 로드 (Tailwind v4 가
+   외부 @import 를 빌드 단계에서 제거하기 때문). */
+
 :root {
   --bg: #ffffff;
   --bg-soft: #f5f7fb;
@@ -70,6 +73,12 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
+  font-family:
+    "Pretendard Variable", "Pretendard",
+    -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Malgun Gothic",
+    "Segoe UI", system-ui, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   font-feature-settings: "kern" 1, "ss01" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -113,12 +122,18 @@ body {
   line-height: 1.6;
 }
 .text-body-lg {
-  font-size: clamp(1rem, 0.95rem + 0.45vw, 1.25rem); /* 16 → 20 */
+  font-size: clamp(1rem, 0.95rem + 0.45vw, 1.25rem); /* 모바일 16 → 20 */
   line-height: 1.7;
 }
 .text-body {
-  font-size: clamp(0.9375rem, 0.9rem + 0.3vw, 1.125rem); /* 15 → 18 */
+  font-size: clamp(0.9375rem, 0.9rem + 0.3vw, 1.125rem); /* 모바일 15 → 18 */
   line-height: 1.7;
+}
+
+/* md 이상 (768px+) — 본문 가독성을 위해 최소 18/20px 보장 */
+@media (min-width: 768px) {
+  .text-body { font-size: 18px; line-height: 1.75; }
+  .text-body-lg { font-size: 20px; line-height: 1.7; }
 }
 .text-button {
   font-size: clamp(1rem, 0.95rem + 0.2vw, 1.1875rem); /* 16 → 19 */

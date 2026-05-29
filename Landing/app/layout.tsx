@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import ScrollTopButton from "@/components/ScrollTopButton";
+import PhoneFAB from "@/components/PhoneFAB";
 import InAppBrowserNotice from "@/components/InAppBrowserNotice";
 
 const SITE_URL = SITE.url;
@@ -89,11 +90,19 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
+      <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"
+        />
+      </head>
       <body className="min-h-screen bg-white text-[var(--text)] antialiased">
         <Header />
         <main className="pb-24 md:pb-0">{children}</main>
         <Footer />
         <StickyMobileCTA />
+        <PhoneFAB />
         <ScrollTopButton />
         <InAppBrowserNotice />
       </body>
