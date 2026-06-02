@@ -109,7 +109,7 @@ export default function HeroSection() {
       <div className="orb orb-3 -z-10" style={{ width: 360, height: 360, bottom: -200, left: "30%" }} aria-hidden="true" />
 
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="grid gap-12 md:gap-10 lg:gap-14 md:grid-cols-[1fr_minmax(0,440px)] items-center">
+        <div className="grid gap-12 md:gap-10 lg:gap-14 md:grid-cols-[1fr_minmax(0,504px)] items-center md:items-end">
           <div className="min-w-0">
           {/* Tagline pill */}
           <span className="inline-flex items-center gap-2 rounded-full bg-white border border-[var(--border)] px-3.5 py-1.5 text-[12.5px] sm:text-[13px] font-semibold text-[var(--accent-strong)] shadow-[0_4px_12px_-8px_rgba(37,99,235,0.25)]">
@@ -221,7 +221,7 @@ export default function HeroSection() {
           </div>
 
           {/* 우측 Hero 이미지 — 모바일은 텍스트 아래에 자연스럽게 */}
-          <div className="w-full max-w-[420px] mx-auto md:mx-0 md:max-w-none">
+          <div className="w-full max-w-[504px] mx-auto md:mx-0 md:max-w-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/hero_1.webp"
