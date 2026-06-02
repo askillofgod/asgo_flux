@@ -47,15 +47,8 @@ export default function Header() {
             draggable={false}
           />
 
-          {/* 모바일: 로고 오른쪽 슬로건 (2줄) */}
-          <span className="md:hidden text-[11.5px] sm:text-[12.5px] font-medium leading-[1.35] tracking-tight text-white/70">
-            가격이 먼저 보이는
-            <br />
-            정찰제 웹 제작
-          </span>
-
-          {/* 데스크탑: 로고 아래 브랜드명 */}
-          <span className="hidden md:block text-[11.5px] font-semibold tracking-tight text-white/75">
+          {/* 브랜드명 — 모바일은 로고 오른쪽, 데스크탑은 로고 아래 */}
+          <span className="text-[12.5px] md:text-[11.5px] font-semibold tracking-tight text-white/75 leading-none">
             어소그 웹클리닉
           </span>
         </a>
