@@ -1,41 +1,42 @@
 @import "tailwindcss";
 
-/* Pretendard Variable 은 layout.tsx 에서 <link> 태그로 로드 (Tailwind v4 가
-   외부 @import 를 빌드 단계에서 제거하기 때문). */
+/* Pretendard Variable 은 layout.tsx 에서 <link> 태그로 로드 */
 
 :root {
+  /* Backgrounds */
   --bg: #ffffff;
-  --bg-soft: #f5f7fb;
-  --bg-dark: #04060f;
-  --bg-dark-2: #0a1126;
+  --bg-soft: #f8fcff;
+  --bg-section: #eff8ff;
 
-  /* 본문 가독성 강화 — 모바일에서도 충분히 진한 회색 */
-  --text: #0a0f1f;
-  --text-soft: #1f2940;
-  --text-muted: #4a5570;
-  --text-on-dark: #f1f5fb;
-  --text-on-dark-soft: #d8dff0;
-  --text-on-dark-muted: #a8b2c8;
+  /* Text */
+  --text: #0f172a;        /* Heading */
+  --text-soft: #334155;
+  --text-muted: #475569;  /* Body Text */
+  --text-faint: #64748b;
 
-  --primary: #0b1f3a;
-  --accent: #2563eb;
+  /* Brand */
+  --primary: #0f172a;
+  --accent: #2563eb;          /* Primary brand */
   --accent-strong: #1d4ed8;
   --accent-bright: #3b82f6;
-  --accent-cyan: #38bdf8;
+  --secondary: #0ea5e9;       /* Secondary */
+  --accent-cyan: #38bdf8;     /* Accent */
 
-  --border: rgba(10, 15, 31, 0.09);
-  --border-strong: rgba(10, 15, 31, 0.16);
-  --border-on-dark: rgba(255, 255, 255, 0.1);
-  --border-on-dark-strong: rgba(255, 255, 255, 0.2);
+  /* Borders */
+  --border: #d8ecff;
+  --border-strong: #b9deff;
+  --border-soft: #eaf3ff;
 
+  /* Legacy */
   --card: #ffffff;
   --kakao: #fee500;
   --kakao-text: #181600;
 
-  --shadow-soft: 0 12px 36px -14px rgba(11, 31, 58, 0.14);
-  --shadow-card: 0 1px 0 rgba(10, 15, 31, 0.04), 0 10px 28px -18px rgba(10, 15, 31, 0.18);
-  --shadow-glow: 0 22px 60px -22px rgba(37, 99, 235, 0.55);
-  --shadow-glow-strong: 0 28px 80px -22px rgba(37, 99, 235, 0.65);
+  /* Shadows — soft & clinical */
+  --shadow-soft: 0 14px 36px -16px rgba(37, 99, 235, 0.16);
+  --shadow-card: 0 1px 0 rgba(15, 23, 42, 0.03), 0 10px 24px -18px rgba(37, 99, 235, 0.18);
+  --shadow-glow: 0 18px 48px -22px rgba(37, 99, 235, 0.55);
+  --shadow-glow-strong: 0 24px 64px -22px rgba(37, 99, 235, 0.65);
 
   --radius-sm: 12px;
   --radius-md: 16px;
@@ -46,11 +47,13 @@
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-soft: var(--bg-soft);
+  --color-bg-section: var(--bg-section);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-primary: var(--primary);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-secondary: var(--secondary);
   --color-border: var(--border);
 }
 
@@ -61,10 +64,6 @@ html {
   scroll-padding-top: 4.75rem;
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-
-  /* 가로 오버플로우 방지 — iOS 스와이프 흔들림 차단
-     overflow-x: clip 가 modern 표준 (sticky/scroll 컨텍스트 영향 없음).
-     구형 브라우저용으로 hidden 도 fallback 으로 선언. */
   overflow-x: hidden;
   overflow-x: clip;
   overscroll-behavior-x: none;
@@ -86,7 +85,6 @@ body {
   line-height: 1.65;
   letter-spacing: -0.011em;
 
-  /* 본문 자체도 클립 + iOS rubber-band 차단 */
   overflow-x: hidden;
   overflow-x: clip;
   overscroll-behavior-x: none;
@@ -95,53 +93,45 @@ body {
 }
 
 /* ============================================
-   Fluid Typography — clamp() 기반 반응형 사이즈
-   모바일 ~ 데스크탑(320px → 1280px) 사이에서 자연 보간
+   Fluid Typography
    ============================================ */
 .text-display {
-  /* 모바일 36 → 데스크탑 80 까지 자연 확장 */
   font-size: clamp(2.25rem, 1.1rem + 5.6vw, 5rem);
   line-height: 1.08;
   letter-spacing: -0.024em;
   font-weight: 900;
 }
 .text-h2 {
-  font-size: clamp(1.75rem, 1.1rem + 3vw, 3.5rem); /* 28 → 56 */
+  font-size: clamp(1.75rem, 1.1rem + 3vw, 3.5rem);
   line-height: 1.14;
   letter-spacing: -0.018em;
   font-weight: 800;
 }
 .text-h3 {
-  font-size: clamp(1.25rem, 0.95rem + 1.5vw, 1.75rem); /* 20 → 28 */
+  font-size: clamp(1.25rem, 0.95rem + 1.5vw, 1.75rem);
   line-height: 1.3;
   letter-spacing: -0.012em;
   font-weight: 700;
 }
 .text-lead {
-  font-size: clamp(1.0625rem, 0.95rem + 0.85vw, 1.625rem); /* 17 → 26 */
+  font-size: clamp(1.0625rem, 0.95rem + 0.85vw, 1.625rem);
   line-height: 1.6;
 }
 .text-body-lg {
-  font-size: clamp(1rem, 0.95rem + 0.45vw, 1.25rem); /* 모바일 16 → 20 */
+  font-size: clamp(1rem, 0.95rem + 0.45vw, 1.25rem);
   line-height: 1.7;
 }
 .text-body {
-  font-size: clamp(0.9375rem, 0.9rem + 0.3vw, 1.125rem); /* 모바일 15 → 18 */
+  font-size: clamp(0.9375rem, 0.9rem + 0.3vw, 1.125rem);
   line-height: 1.7;
 }
-
-/* md 이상 (768px+) — 본문 가독성을 위해 최소 18/20px 보장 */
-@media (min-width: 768px) {
-  .text-body { font-size: 18px; line-height: 1.75; }
-  .text-body-lg { font-size: 20px; line-height: 1.7; }
-}
 .text-button {
-  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.1875rem); /* 16 → 19 */
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.1875rem);
   line-height: 1;
   font-weight: 700;
 }
 .text-price {
-  font-size: clamp(2.25rem, 1.2rem + 5.5vw, 4.25rem); /* 36 → 68 */
+  font-size: clamp(2.25rem, 1.2rem + 5.5vw, 4.25rem);
   line-height: 1;
   letter-spacing: -0.03em;
   font-weight: 900;
@@ -153,27 +143,39 @@ body {
   text-transform: uppercase;
 }
 
+/* md 이상 — 본문 가독성 18/20px */
+@media (min-width: 768px) {
+  .text-body { font-size: 18px; line-height: 1.75; }
+  .text-body-lg { font-size: 20px; line-height: 1.7; }
+}
+
 /* ============================================
-   다크 블록 배경 — Hero & Portfolio
+   Clinic 배경 — Hero, About Hero, Portfolio 등
    ============================================ */
-.bg-ink {
+.bg-clinic {
   background:
-    radial-gradient(120% 80% at 80% -10%, rgba(56, 189, 248, 0.25), transparent 55%),
-    radial-gradient(110% 70% at 0% 0%, rgba(37, 99, 235, 0.32), transparent 55%),
-    linear-gradient(180deg, #04060f 0%, #0a1126 55%, #04060f 100%);
+    radial-gradient(80% 60% at 85% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(70% 50% at 5% 5%, rgba(37, 99, 235, 0.14), transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, #f8fcff 70%, #eff8ff 100%);
+}
+
+.bg-clinic-deep {
+  background:
+    radial-gradient(60% 60% at 50% 0%, rgba(56, 189, 248, 0.30), transparent 70%),
+    linear-gradient(135deg, #eff8ff 0%, #ffffff 50%, #eaf3ff 100%);
 }
 
 .bg-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    linear-gradient(rgba(37, 99, 235, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.045) 1px, transparent 1px);
   background-size: 64px 64px;
   background-position: center top;
   -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 80%);
   mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 80%);
 }
 
-/* 부드러운 글로우 오브 (Hero 장식) */
+/* 부드러운 글로우 오브 (라이트 톤) */
 .orb {
   position: absolute;
   border-radius: 999px;
@@ -181,34 +183,27 @@ body {
   opacity: 0.55;
   pointer-events: none;
 }
-.orb-1 { background: radial-gradient(circle, rgba(56,189,248,0.85), transparent 60%); }
-.orb-2 { background: radial-gradient(circle, rgba(37,99,235,0.85), transparent 60%); }
-.orb-3 { background: radial-gradient(circle, rgba(99,102,241,0.7), transparent 65%); }
+.orb-1 { background: radial-gradient(circle, rgba(56, 189, 248, 0.45), transparent 60%); }
+.orb-2 { background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 60%); }
+.orb-3 { background: radial-gradient(circle, rgba(14, 165, 233, 0.30), transparent 65%); }
 
-/* 가는 그라데이션 디바이더 (섹션 사이) */
-.divider-glow {
-  position: relative;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(56,189,248,0.45), transparent);
-}
-
-/* 그라데이션 텍스트 */
+/* 그라데이션 텍스트 — 라이트 배경용 (브랜드 블루 톤) */
 .text-gradient {
-  background: linear-gradient(120deg, #ffffff 0%, #c7d5ff 38%, #38bdf8 100%);
+  background: linear-gradient(120deg, #1d4ed8 0%, #2563eb 50%, #0ea5e9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
 .text-gradient-blue {
-  background: linear-gradient(120deg, #3b82f6 0%, #38bdf8 100%);
+  background: linear-gradient(120deg, #2563eb 0%, #38bdf8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
-/* 테마 가변 글로우 링 — --ring-gradient / --ring-glow-color 로 카드별 색상 주입 */
+/* 추천 카드 글로우 링 — 클리닉 톤 */
 .ring-glow { position: relative; isolation: isolate; }
 .ring-glow::before {
   content: "";
@@ -216,7 +211,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
-  background: var(--ring-gradient, linear-gradient(135deg, #38bdf8, #2563eb 55%, #6366f1 100%));
+  background: var(--ring-gradient, linear-gradient(135deg, #38bdf8, #2563eb 55%, #0ea5e9 100%));
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -230,22 +225,22 @@ body {
   position: absolute;
   inset: -32px;
   border-radius: inherit;
-  background: radial-gradient(55% 55% at 50% 40%, var(--ring-glow-color, rgba(56, 189, 248, 0.32)), transparent 70%);
-  filter: blur(36px);
+  background: radial-gradient(55% 55% at 50% 40%, var(--ring-glow-color, rgba(56, 189, 248, 0.28)), transparent 70%);
+  filter: blur(40px);
   z-index: -1;
   pointer-events: none;
 }
 
-/* Glass 카드 */
+/* Glass 카드 — 라이트 톤 */
 .glass {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(37, 99, 235, 0.10);
   -webkit-backdrop-filter: saturate(140%) blur(10px);
           backdrop-filter: saturate(140%) blur(10px);
 }
 .glass-strong {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(37, 99, 235, 0.15);
   -webkit-backdrop-filter: saturate(140%) blur(14px);
           backdrop-filter: saturate(140%) blur(14px);
 }
@@ -263,33 +258,23 @@ body {
 }
 .card-hover:hover {
   transform: translateY(-3px);
-  border-color: rgba(37, 99, 235, 0.40);
-  box-shadow: 0 16px 36px -18px rgba(37, 99, 235, 0.32);
-}
-.card-hover-dark {
-  transition: transform .25s ease, border-color .25s ease, background-color .25s ease;
-}
-.card-hover-dark:hover {
-  transform: translateY(-3px);
-  border-color: rgba(56, 189, 248, 0.50);
-  background-color: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-strong);
+  box-shadow: 0 16px 36px -18px rgba(37, 99, 235, 0.30);
 }
 
-/* ============================================
-   입력 필드 — 모바일에서도 충분히 크게
-   ============================================ */
+/* 입력 필드 — 클리닉 톤 */
 .input-base {
   width: 100%;
   height: 52px;
   border-radius: 14px;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   background: #ffffff;
   padding: 0 1rem;
-  font-size: 16px; /* iOS 줌 방지 (16px 이상 필수) */
+  font-size: 16px;
   color: var(--text);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-.input-base::placeholder { color: #97a0b5; }
+.input-base::placeholder { color: var(--text-faint); }
 .input-base:focus {
   outline: none;
   border-color: var(--accent);
@@ -303,19 +288,18 @@ textarea.input-base {
 }
 select.input-base {
   appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234a5570'><path d='M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23475569'><path d='M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.25 4.39a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z'/></svg>");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1rem 1rem;
   padding-right: 2.5rem;
 }
 
-/* 작은 화면 보조 */
 @media (max-width: 480px) {
   body { line-height: 1.62; }
 }
 
-/* Hero 슬라이드 progress bar */
+/* Hero progress bar */
 @keyframes hero-progress {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
@@ -324,7 +308,6 @@ select.input-base {
 /* 모션 줄이기 */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .card-hover:hover, .card-hover-dark:hover { transform: none; }
-  /* Hero progress bar 는 정보 전달용이므로 유지하되 즉시 채움 */
+  .card-hover:hover { transform: none; }
   [data-hero-progress] { animation: none !important; transform: scaleX(1) !important; }
 }

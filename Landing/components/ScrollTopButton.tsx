@@ -44,8 +44,8 @@ export default function ScrollTopButton() {
         "fixed right-4 sm:right-6 z-30",
         "md:!bottom-6",
         "inline-flex h-12 w-12 items-center justify-center",
-        "rounded-full bg-[var(--primary)] text-white",
-        "shadow-[0_12px_28px_-10px_rgba(11,31,58,0.45)] hover:shadow-[0_16px_36px_-10px_rgba(37,99,235,0.5)]",
+        "rounded-full bg-white border border-[var(--border-strong)] text-[var(--primary)]",
+        "shadow-[0_12px_28px_-12px_rgba(37,99,235,0.30)] hover:shadow-[0_16px_36px_-12px_rgba(37,99,235,0.40)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
         "transition-all duration-200 ease-out",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-cyan)] focus-visible:ring-offset-2",
         visible

@@ -53,7 +53,7 @@ export default function AboutPage() {
    ============================================================ */
 function AboutHero() {
   return (
-    <section className="relative isolate overflow-hidden bg-ink pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-40 md:pb-28">
+    <section className="relative isolate overflow-hidden bg-clinic pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-40 md:pb-28">
       <div className="bg-grid absolute inset-0 -z-10" aria-hidden="true" />
       <div className="orb orb-1 -z-10" style={{ width: 520, height: 520, top: -180, left: -120 }} aria-hidden="true" />
       <div className="orb orb-2 -z-10" style={{ width: 480, height: 480, top: -120, right: -140 }} aria-hidden="true" />
@@ -61,16 +61,16 @@ function AboutHero() {
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
         <div className="grid md:grid-cols-[55%_45%] gap-10 md:gap-12 items-center">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full glass-strong px-3.5 py-1.5 text-[12.5px] sm:text-[13px] font-semibold text-white/90">
-              <span className="h-2 w-2 rounded-full bg-[var(--accent-cyan)]" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-white border border-[var(--border)] px-3.5 py-1.5 text-[12.5px] sm:text-[13px] font-semibold text-[var(--accent-strong)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
               ABOUT
             </span>
-            <h1 className="mt-6 text-display text-white">
+            <h1 className="mt-6 text-display text-[var(--primary)]">
               15년의 디지털 프로젝트 경험을
               <br />
               <span className="text-gradient">ASOG의 설계력</span>으로 다시 담다
             </h1>
-            <p className="mt-7 text-lead text-white/80">
+            <p className="mt-7 text-lead text-[var(--text-muted)]">
               삼성전자, LG전자, 현대자동차, 포스코, 스카이라이프, KDB생명, 굿네이버스, 암웨이 코리아, 로레알 코리아 등 다양한 기업·기관 프로젝트 경험을 바탕으로 웹사이트의 목적과 사용자 흐름을 설계합니다.
             </p>
           </div>
@@ -78,8 +78,6 @@ function AboutHero() {
           <HeroMockupCollage />
         </div>
       </div>
-
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[#04060f]" />
     </section>
   );
 }
@@ -133,23 +131,23 @@ function MockupCard({
   className?: string;
 }) {
   const base =
-    "glass rounded-2xl overflow-hidden shadow-[0_24px_60px_-20px_rgba(0,0,0,0.6)] backdrop-blur-md";
+    "relative rounded-2xl overflow-hidden bg-white border border-[var(--border)] shadow-[0_20px_50px_-22px_rgba(37,99,235,0.30)]";
   if (kind === "mobile") {
     return (
       <div className={`${base} ${className}`} aria-hidden="true">
         <div className="aspect-[9/16] flex flex-col">
           <div className="h-6 flex items-center justify-center">
-            <span className="h-1 w-8 rounded-full bg-white/30" />
+            <span className="h-1 w-8 rounded-full bg-[var(--border-strong)]" />
           </div>
           <div className="flex-1 p-2 space-y-1.5">
-            <div className="h-12 rounded-lg bg-gradient-to-br from-[#2563eb]/40 to-[#38bdf8]/30" />
-            <div className="h-2 rounded bg-white/15 w-3/4" />
-            <div className="h-2 rounded bg-white/10 w-1/2" />
+            <div className="h-12 rounded-lg bg-gradient-to-br from-[var(--accent)]/30 to-[var(--accent-cyan)]/25" />
+            <div className="h-2 rounded bg-[var(--border-strong)] w-3/4" />
+            <div className="h-2 rounded bg-[var(--border)] w-1/2" />
             <div className="grid grid-cols-2 gap-1.5 pt-1.5">
-              <div className="h-10 rounded bg-white/8" />
-              <div className="h-10 rounded bg-white/8" />
+              <div className="h-10 rounded bg-[var(--bg-soft)]" />
+              <div className="h-10 rounded bg-[var(--bg-soft)]" />
             </div>
-            <div className="h-6 rounded-md bg-gradient-to-r from-[#3b82f6] to-[#38bdf8] mt-auto" />
+            <div className="h-6 rounded-md bg-gradient-to-r from-[var(--accent)] to-[var(--accent-cyan)] mt-auto" />
           </div>
         </div>
         <Tag label={label} />
@@ -160,11 +158,11 @@ function MockupCard({
     return (
       <div className={`${base} ${className}`} aria-hidden="true">
         <div className="aspect-[16/10] p-3 grid grid-cols-3 gap-1.5">
-          <div className="col-span-3 h-3 rounded border border-dashed border-white/30" />
-          <div className="col-span-2 h-16 rounded border border-dashed border-white/30" />
-          <div className="col-span-1 h-16 rounded border border-dashed border-white/30" />
-          <div className="col-span-3 h-3 rounded border border-dashed border-white/30 mt-1" />
-          <div className="col-span-3 h-6 rounded border border-dashed border-white/30" />
+          <div className="col-span-3 h-3 rounded border border-dashed border-[var(--border-strong)]" />
+          <div className="col-span-2 h-16 rounded border border-dashed border-[var(--border-strong)]" />
+          <div className="col-span-1 h-16 rounded border border-dashed border-[var(--border-strong)]" />
+          <div className="col-span-3 h-3 rounded border border-dashed border-[var(--border-strong)] mt-1" />
+          <div className="col-span-3 h-6 rounded border border-dashed border-[var(--border-strong)]" />
         </div>
         <Tag label={label} />
       </div>
@@ -174,17 +172,17 @@ function MockupCard({
   return (
     <div className={`${base} ${className}`} aria-hidden="true">
       <div className="aspect-[16/10] flex flex-col">
-        <div className="h-5 sm:h-6 px-2 flex items-center gap-1.5 bg-white/5 border-b border-white/10">
-          <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
-          <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
-          <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+        <div className="h-5 sm:h-6 px-2 flex items-center gap-1.5 bg-[var(--bg-soft)] border-b border-[var(--border)]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--border-strong)]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--border-strong)]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--border-strong)]" />
         </div>
         <div className="flex-1 p-2.5 grid grid-cols-3 gap-1.5">
-          <div className="col-span-3 h-3 rounded bg-white/12 w-2/3" />
-          <div className="col-span-3 h-6 rounded bg-gradient-to-r from-[#2563eb]/40 to-[#38bdf8]/30" />
-          <div className="col-span-1 h-10 rounded bg-white/10" />
-          <div className="col-span-1 h-10 rounded bg-white/10" />
-          <div className="col-span-1 h-10 rounded bg-white/10" />
+          <div className="col-span-3 h-3 rounded bg-[var(--border)] w-2/3" />
+          <div className="col-span-3 h-6 rounded bg-gradient-to-r from-[var(--accent)]/40 to-[var(--accent-cyan)]/30" />
+          <div className="col-span-1 h-10 rounded bg-[var(--bg-soft)]" />
+          <div className="col-span-1 h-10 rounded bg-[var(--bg-soft)]" />
+          <div className="col-span-1 h-10 rounded bg-[var(--bg-soft)]" />
         </div>
       </div>
       <Tag label={label} />
@@ -194,7 +192,7 @@ function MockupCard({
 
 function Tag({ label }: { label: string }) {
   return (
-    <span className="absolute top-2 left-2 inline-flex items-center rounded-full bg-black/60 border border-white/15 px-2 py-0.5 text-[9.5px] sm:text-[10px] font-bold tracking-wider text-white/80 uppercase">
+    <span className="absolute top-2 left-2 inline-flex items-center rounded-full bg-white border border-[var(--border)] px-2 py-0.5 text-[9.5px] sm:text-[10px] font-bold tracking-wider text-[var(--accent-strong)] uppercase">
       {label}
     </span>
   );
@@ -211,25 +209,24 @@ function ExperienceOverview() {
     { title: "Campaign / Commerce", body: "캠페인·상세페이지·프로모션", icon: <IconBolt /> },
   ];
   return (
-    <section className="relative overflow-hidden bg-ink py-24 sm:py-28 md:py-32">
+    <section className="relative overflow-hidden bg-[var(--bg-section)] py-24 sm:py-28 md:py-32">
       <div className="bg-grid absolute inset-0 -z-10 opacity-60" aria-hidden="true" />
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
         <SectionTitle
           eyebrow="EXPERIENCE"
-          tone="dark"
           title="다양한 산업에서 검증된 실무 경험"
           description="ASOG의 작업 방식은 15년간 다양한 디지털 프로젝트에서 쌓아온 실무 경험을 기반으로 합니다. 기업 홈페이지, 공공기관 사이트, 금융권 프로젝트, 브랜드 캠페인, 내부 시스템 UI, 상세페이지까지 폭넓은 경험을 웹 제작 프로세스에 반영합니다."
         />
         <div className="mt-14 grid gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((it) => (
-            <div key={it.title} className="card-hover-dark relative rounded-[22px] glass p-6 sm:p-7">
+            <div key={it.title} className="card-hover relative rounded-[22px] bg-white border border-[var(--border)] p-6 sm:p-7 shadow-[var(--shadow-card)]">
               <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent-cyan)] text-white shadow-[0_10px_22px_-12px_rgba(37,99,235,0.55)]">
                 {it.icon}
               </div>
-              <h3 className="mt-5 text-[18px] sm:text-[20px] font-extrabold tracking-tight text-white">
+              <h3 className="mt-5 text-[18px] sm:text-[20px] font-extrabold tracking-tight text-[var(--primary)]">
                 {it.title}
               </h3>
-              <p className="mt-2 text-[14.5px] leading-relaxed text-white/70">{it.body}</p>
+              <p className="mt-2 text-[14.5px] leading-relaxed text-[var(--text-muted)]">{it.body}</p>
             </div>
           ))}
         </div>
@@ -323,69 +320,69 @@ function TrackRecord() {
 type TrackMockupKind = "enterprise" | "public" | "dashboard" | "campaign" | "commerce";
 
 function TrackMockup({ kind }: { kind: TrackMockupKind }) {
-  // 모든 카드 공통: 다크 배경 + 블루 그라데이션 + 추상 UI
+  // 라이트 톤 — 흰 배경 + 옅은 블루 그라데이션 + 다크 UI 요소
   const palette: Record<TrackMockupKind, { tag: string; hue: string }> = {
-    enterprise: { tag: "Project UI", hue: "from-[#0B2545] to-[#1d4ed8]" },
-    public: { tag: "Information Architecture", hue: "from-[#0F172A] to-[#1e40af]" },
-    dashboard: { tag: "Dashboard / System", hue: "from-[#06283D] to-[#0EA5E9]" },
-    campaign: { tag: "Campaign UI", hue: "from-[#1E1B4B] to-[#7C3AED]" },
-    commerce: { tag: "Detail Page", hue: "from-[#082F49] to-[#0891B2]" },
+    enterprise: { tag: "Project UI", hue: "from-[#eaf3ff] to-[#d8ecff]" },
+    public: { tag: "Information Architecture", hue: "from-[#f0f7ff] to-[#dfeeff]" },
+    dashboard: { tag: "Dashboard / System", hue: "from-[#e6f8ff] to-[#cfeffd]" },
+    campaign: { tag: "Campaign UI", hue: "from-[#f1edff] to-[#dfd5ff]" },
+    commerce: { tag: "Detail Page", hue: "from-[#e2f4ff] to-[#caeaff]" },
   };
   const p = palette[kind];
   return (
     <div
-      className={`relative aspect-[16/10] rounded-2xl border border-white/10 bg-gradient-to-br ${p.hue} shadow-[0_24px_60px_-20px_rgba(0,0,0,0.4)] overflow-hidden`}
+      className={`relative aspect-[16/10] rounded-2xl border border-[var(--border)] bg-gradient-to-br ${p.hue} shadow-[0_22px_56px_-22px_rgba(37,99,235,0.30)] overflow-hidden`}
       aria-hidden="true"
     >
       {/* browser chrome */}
-      <div className="h-6 sm:h-7 px-3 flex items-center gap-1.5 bg-black/30 border-b border-white/10">
-        <span className="h-1.5 w-1.5 rounded-full bg-white/35" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/35" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/35" />
+      <div className="h-6 sm:h-7 px-3 flex items-center gap-1.5 bg-white/60 border-b border-[var(--border)]">
+        <span className="h-1.5 w-1.5 rounded-full bg-[var(--primary)]/30" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[var(--primary)]/30" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[var(--primary)]/30" />
       </div>
 
       {/* content per kind */}
       <div className="absolute inset-x-0 bottom-0 top-7 p-4 sm:p-5">
         {kind === "enterprise" && (
           <div className="grid grid-cols-3 gap-2 h-full">
-            <div className="col-span-3 h-3 rounded bg-white/25 w-1/2" />
-            <div className="col-span-3 h-8 rounded bg-white/10" />
-            <div className="h-12 rounded bg-white/15" />
-            <div className="h-12 rounded bg-white/15" />
-            <div className="h-12 rounded bg-white/15" />
-            <div className="col-span-2 h-5 rounded bg-white/12" />
-            <div className="h-5 rounded bg-white/20" />
+            <div className="col-span-3 h-3 rounded bg-[var(--primary)]/25 w-1/2" />
+            <div className="col-span-3 h-8 rounded bg-[var(--primary)]/08" />
+            <div className="h-12 rounded bg-white/70" />
+            <div className="h-12 rounded bg-white/70" />
+            <div className="h-12 rounded bg-white/70" />
+            <div className="col-span-2 h-5 rounded bg-[var(--primary)]/10" />
+            <div className="h-5 rounded bg-[var(--accent)]/40" />
           </div>
         )}
         {kind === "public" && (
           <div className="space-y-2 h-full">
-            <div className="h-3 rounded bg-white/25 w-1/3" />
+            <div className="h-3 rounded bg-[var(--primary)]/25 w-1/3" />
             <div className="grid grid-cols-5 gap-1.5">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-2 rounded bg-white/15" />
+                <div key={i} className="h-2 rounded bg-[var(--primary)]/12" />
               ))}
             </div>
             <div className="grid grid-cols-4 gap-2 mt-3">
-              <div className="h-12 rounded bg-white/12" />
-              <div className="h-12 rounded bg-white/12" />
-              <div className="h-12 rounded bg-white/12" />
-              <div className="h-12 rounded bg-white/12" />
+              <div className="h-12 rounded bg-white/70" />
+              <div className="h-12 rounded bg-white/70" />
+              <div className="h-12 rounded bg-white/70" />
+              <div className="h-12 rounded bg-white/70" />
             </div>
-            <div className="h-2 rounded bg-white/15 w-2/3 mt-3" />
-            <div className="h-2 rounded bg-white/10 w-1/2" />
+            <div className="h-2 rounded bg-[var(--primary)]/15 w-2/3 mt-3" />
+            <div className="h-2 rounded bg-[var(--primary)]/10 w-1/2" />
           </div>
         )}
         {kind === "dashboard" && (
           <div className="grid grid-cols-4 gap-2 h-full">
-            <div className="col-span-2 h-12 rounded bg-white/10 p-2">
-              <div className="h-1.5 rounded bg-white/30 w-1/2 mb-1" />
+            <div className="col-span-2 h-12 rounded bg-white/70 p-2">
+              <div className="h-1.5 rounded bg-[var(--primary)]/30 w-1/2 mb-1" />
               <div className="h-4 rounded bg-gradient-to-r from-[#38bdf8] to-[#2563eb] w-3/4" />
             </div>
-            <div className="h-12 rounded bg-white/10" />
-            <div className="h-12 rounded bg-white/10" />
-            <div className="col-span-4 h-14 rounded bg-white/8 grid grid-cols-7 gap-1 p-1.5">
+            <div className="h-12 rounded bg-white/70" />
+            <div className="h-12 rounded bg-white/70" />
+            <div className="col-span-4 h-14 rounded bg-white/60 grid grid-cols-7 gap-1 p-1.5">
               {Array.from({ length: 14 }).map((_, i) => (
-                <div key={i} className="rounded bg-white/15" />
+                <div key={i} className="rounded bg-[var(--accent)]/35" />
               ))}
             </div>
           </div>
@@ -394,25 +391,25 @@ function TrackMockup({ kind }: { kind: TrackMockupKind }) {
           <div className="relative h-full">
             <div className="absolute inset-0 grid place-items-center text-center">
               <div>
-                <div className="mx-auto h-2 rounded bg-white/30 w-24 mb-2" />
-                <div className="mx-auto h-4 rounded bg-white/40 w-32 mb-3" />
-                <div className="mx-auto h-6 w-24 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#7C3AED]" />
+                <div className="mx-auto h-2 rounded bg-[var(--primary)]/30 w-24 mb-2" />
+                <div className="mx-auto h-4 rounded bg-[var(--primary)]/40 w-32 mb-3" />
+                <div className="mx-auto h-6 w-24 rounded-full bg-gradient-to-r from-[#a78bfa] to-[#7c3aed]" />
               </div>
             </div>
-            <div className="absolute bottom-3 left-3 h-8 w-8 rounded-full bg-white/15" />
-            <div className="absolute top-2 right-3 h-6 w-6 rounded-full bg-white/15" />
+            <div className="absolute bottom-3 left-3 h-8 w-8 rounded-full bg-white/70" />
+            <div className="absolute top-2 right-3 h-6 w-6 rounded-full bg-white/70" />
           </div>
         )}
         {kind === "commerce" && (
           <div className="grid grid-cols-3 gap-2 h-full">
-            <div className="col-span-1 h-full rounded bg-white/15" />
+            <div className="col-span-1 h-full rounded bg-white/70" />
             <div className="col-span-2 space-y-1.5">
-              <div className="h-2 rounded bg-white/30 w-1/2" />
-              <div className="h-1.5 rounded bg-white/20 w-3/4" />
-              <div className="h-1.5 rounded bg-white/20 w-2/3" />
+              <div className="h-2 rounded bg-[var(--primary)]/30 w-1/2" />
+              <div className="h-1.5 rounded bg-[var(--primary)]/20 w-3/4" />
+              <div className="h-1.5 rounded bg-[var(--primary)]/20 w-2/3" />
               <div className="grid grid-cols-2 gap-1.5 mt-2">
-                <div className="h-6 rounded bg-white/10" />
-                <div className="h-6 rounded bg-white/10" />
+                <div className="h-6 rounded bg-white/70" />
+                <div className="h-6 rounded bg-white/70" />
               </div>
               <div className="h-5 rounded bg-gradient-to-r from-[#0EA5E9] to-[#06B6D4] mt-1.5" />
             </div>
@@ -420,7 +417,7 @@ function TrackMockup({ kind }: { kind: TrackMockupKind }) {
         )}
       </div>
 
-      <span className="absolute top-2 right-3 inline-flex items-center rounded-full bg-black/40 border border-white/15 px-2 py-0.5 text-[9.5px] font-bold tracking-wider text-white/85 uppercase">
+      <span className="absolute top-2 right-3 inline-flex items-center rounded-full bg-white border border-[var(--border)] px-2 py-0.5 text-[9.5px] font-bold tracking-wider text-[var(--accent-strong)] uppercase">
         {p.tag}
       </span>
     </div>
@@ -470,7 +467,7 @@ function WorkPhilosophy() {
 
 function FlowMockup() {
   return (
-    <div className="relative aspect-[5/4] rounded-2xl bg-gradient-to-br from-[#04060f] to-[#0B2545] p-6 sm:p-8 shadow-[0_24px_60px_-20px_rgba(11,31,58,0.4)] overflow-hidden">
+    <div className="relative aspect-[5/4] rounded-2xl bg-gradient-to-br from-[#f8fcff] via-[#eff8ff] to-[#dfeeff] p-6 sm:p-8 border border-[var(--border)] shadow-[0_22px_56px_-22px_rgba(37,99,235,0.25)] overflow-hidden">
       <div className="bg-grid absolute inset-0 opacity-50" aria-hidden="true" />
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 320" aria-hidden="true">
         <defs>
@@ -484,21 +481,21 @@ function FlowMockup() {
         <path d="M100 240 L220 240 L220 160" stroke="url(#flowGrad)" strokeWidth="1.5" fill="none" strokeDasharray="4 4" opacity="0.7" />
       </svg>
       {/* nodes */}
-      <div className="absolute left-6 top-12 w-24 sm:w-28 rounded-xl bg-white/8 border border-white/15 px-3 py-2 backdrop-blur">
-        <p className="text-[9.5px] font-bold tracking-wider text-white/55 uppercase">Purpose</p>
-        <p className="mt-0.5 text-[12px] font-bold text-white">목적 정리</p>
+      <div className="absolute left-6 top-12 w-24 sm:w-28 rounded-xl bg-white/80 border border-[var(--border)] px-3 py-2 backdrop-blur shadow-sm">
+        <p className="text-[9.5px] font-bold tracking-wider text-[var(--text-muted)] uppercase">Purpose</p>
+        <p className="mt-0.5 text-[12px] font-bold text-[var(--primary)]">목적 정리</p>
       </div>
-      <div className="absolute left-1/2 top-32 -translate-x-1/2 w-28 sm:w-32 rounded-xl bg-white/8 border border-white/15 px-3 py-2 backdrop-blur">
-        <p className="text-[9.5px] font-bold tracking-wider text-white/55 uppercase">Flow</p>
-        <p className="mt-0.5 text-[12px] font-bold text-white">흐름 설계</p>
+      <div className="absolute left-1/2 top-32 -translate-x-1/2 w-28 sm:w-32 rounded-xl bg-white/80 border border-[var(--border)] px-3 py-2 backdrop-blur shadow-sm">
+        <p className="text-[9.5px] font-bold tracking-wider text-[var(--text-muted)] uppercase">Flow</p>
+        <p className="mt-0.5 text-[12px] font-bold text-[var(--primary)]">흐름 설계</p>
       </div>
       <div className="absolute right-6 top-32 w-24 sm:w-28 rounded-xl bg-gradient-to-br from-[#38bdf8] to-[#2563eb] px-3 py-2 shadow-[0_10px_22px_-10px_rgba(37,99,235,0.7)]">
         <p className="text-[9.5px] font-bold tracking-wider text-white/85 uppercase">Visual</p>
         <p className="mt-0.5 text-[12px] font-bold text-white">시각화</p>
       </div>
-      <div className="absolute left-6 bottom-8 w-24 sm:w-28 rounded-xl bg-white/8 border border-white/15 px-3 py-2 backdrop-blur">
-        <p className="text-[9.5px] font-bold tracking-wider text-white/55 uppercase">User</p>
-        <p className="mt-0.5 text-[12px] font-bold text-white">사용자 경로</p>
+      <div className="absolute left-6 bottom-8 w-24 sm:w-28 rounded-xl bg-white/80 border border-[var(--border)] px-3 py-2 backdrop-blur shadow-sm">
+        <p className="text-[9.5px] font-bold tracking-wider text-[var(--text-muted)] uppercase">User</p>
+        <p className="mt-0.5 text-[12px] font-bold text-[var(--primary)]">사용자 경로</p>
       </div>
     </div>
   );
@@ -555,21 +552,21 @@ function AboutProcess() {
 }
 
 /* ============================================================
-   6) Closing CTA
+   6) Closing CTA — 라이트 클리닉 톤
    ============================================================ */
 function ClosingCTA() {
   return (
-    <section className="relative isolate overflow-hidden bg-ink py-24 sm:py-28 md:py-32 text-center">
+    <section className="relative isolate overflow-hidden bg-clinic-deep py-24 sm:py-28 md:py-32 text-center">
       <div className="bg-grid absolute inset-0 -z-10 opacity-60" aria-hidden="true" />
       <div className="orb orb-1 -z-10" style={{ width: 480, height: 480, top: -160, left: "10%" }} aria-hidden="true" />
       <div className="orb orb-2 -z-10" style={{ width: 480, height: 480, bottom: -200, right: "5%" }} aria-hidden="true" />
 
       <div className="relative mx-auto max-w-3xl px-5 sm:px-6">
-        <h2 className="text-h2 text-white">
+        <h2 className="text-h2 text-[var(--primary)]">
           작은 브랜드도{" "}
           <span className="text-gradient">제대로 설계된 웹사이트</span>가 필요합니다
         </h2>
-        <p className="mt-6 text-lead text-white/75">
+        <p className="mt-6 text-lead text-[var(--text-muted)]">
           ASOG는 대형 프로젝트에서 쌓은 기획과 디자인 기준을 소상공인, 스타트업, 개인 브랜드에 맞게 현실적으로 적용합니다.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
@@ -583,7 +580,7 @@ function ClosingCTA() {
           <a
             href="/#pricing"
             data-event="cta_about_closing_pricing_click"
-            className="inline-flex h-14 sm:h-[60px] w-full sm:w-auto items-center justify-center gap-2 rounded-2xl glass-strong px-7 text-button text-white hover:bg-white/10 transition-colors"
+            className="inline-flex h-14 sm:h-[60px] w-full sm:w-auto items-center justify-center gap-2 rounded-2xl bg-white border border-[var(--border-strong)] px-7 text-button text-[var(--primary)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
           >
             서비스 가격 보기
           </a>

@@ -27,8 +27,8 @@ export default function Header() {
       className={[
         "fixed inset-x-0 top-0 z-50 transition-all duration-200",
         scrolled
-          ? "bg-[#04060f]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.4)]"
-          : "bg-transparent",
+          ? "bg-white/90 backdrop-blur-xl border-b border-[var(--border)] shadow-[0_8px_28px_-18px_rgba(37,99,235,0.25)]"
+          : "bg-white/60 backdrop-blur-sm",
       ].join(" ")}
     >
       <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-5 sm:px-6">
@@ -44,11 +44,14 @@ export default function Header() {
             width={729}
             height={164}
             className="h-6 sm:h-7 w-auto flex-none select-none"
+            style={{
+              // 흰색 로고 → 브랜드 네이비/블루 톤으로 보정
+              filter:
+                "brightness(0) saturate(100%) invert(11%) sepia(40%) saturate(2000%) hue-rotate(204deg) brightness(96%) contrast(95%)",
+            }}
             draggable={false}
           />
-
-          {/* 브랜드명 — 모바일은 로고 오른쪽, 데스크탑은 로고 아래 */}
-          <span className="text-[15px] md:text-[14px] font-semibold tracking-tight text-white/80 leading-none">
+          <span className="text-[15px] md:text-[14px] font-semibold tracking-tight text-[var(--primary)]/80 leading-none">
             어소그 웹클리닉
           </span>
         </a>
@@ -58,7 +61,7 @@ export default function Header() {
             <a
               key={n.href}
               href={n.href}
-              className="text-[14px] font-semibold text-white/75 hover:text-white transition-colors"
+              className="text-[14px] font-semibold text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
             >
               {n.label}
             </a>
@@ -77,7 +80,7 @@ export default function Header() {
 
         <button
           type="button"
-          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-white"
+          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-[var(--primary)]"
           onClick={() => setOpen((v) => !v)}
           aria-label="메뉴 열기"
           aria-expanded={open}
@@ -93,14 +96,14 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-white/10 bg-[#04060f]/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-[var(--border)] bg-white/95 backdrop-blur-xl">
           <div className="px-5 py-5 flex flex-col gap-1.5">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-4 py-3.5 text-[16px] font-semibold text-white/85 hover:bg-white/5"
+                className="rounded-lg px-4 py-3.5 text-[16px] font-semibold text-[var(--text-muted)] hover:bg-[var(--bg-soft)]"
               >
                 {n.label}
               </a>

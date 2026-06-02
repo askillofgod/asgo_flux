@@ -2,46 +2,47 @@ import { SITE } from "@/data/site";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#06091a] py-12 sm:py-14">
+    <footer className="relative overflow-hidden bg-[var(--bg-soft)] border-t border-[var(--border)] py-12 sm:py-14">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-cyan)]/40 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent"
       />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
           <div className="flex flex-col gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {/* Header 로고와 동일한 src(SITE.logo) + 동일 원본 비율(729x164).
-                Footer 용으로 크기만 작게 + flex stretch 방지(self-start) +
-                object-contain 으로 비율 보존 */}
             <img
               src={SITE.logo}
               alt={SITE.name}
               width={729}
               height={164}
               className="block self-start h-5 sm:h-6 w-auto object-contain select-none"
+              style={{
+                filter:
+                  "brightness(0) saturate(100%) invert(11%) sepia(40%) saturate(2000%) hue-rotate(204deg) brightness(96%) contrast(95%)",
+              }}
               draggable={false}
             />
-            <p className="text-[13px] text-white/65 leading-relaxed">
+            <p className="text-[13px] text-[var(--text-muted)] leading-relaxed">
               {SITE.brandDescription}
             </p>
           </div>
           <div className="flex flex-col sm:items-end gap-1.5 text-[13.5px]">
             <a
               href={`mailto:${SITE.contact.email}`}
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-[var(--accent)] hover:text-[var(--accent-strong)] font-semibold transition-colors"
             >
               {SITE.contact.email}
             </a>
             <a
               href={`tel:${SITE.contact.phoneTel}`}
-              className="text-white/80 hover:text-white transition-colors"
+              className="text-[var(--accent)] hover:text-[var(--accent-strong)] font-semibold transition-colors"
             >
               {SITE.contact.phone}
             </a>
           </div>
         </div>
-        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[11.5px] text-white/45">
+        <div className="mt-8 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[11.5px] text-[var(--text-faint)]">
           <p>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
           <p className="tracking-wider uppercase">정찰제 · 빠른 제작 · 모바일 최적화</p>
         </div>
