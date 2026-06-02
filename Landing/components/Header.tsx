@@ -48,7 +48,7 @@ export default function Header() {
           />
 
           {/* 브랜드명 — 모바일은 로고 오른쪽, 데스크탑은 로고 아래 */}
-          <span className="text-[12.5px] md:text-[11.5px] font-semibold tracking-tight text-white/75 leading-none">
+          <span className="text-[15px] md:text-[14px] font-semibold tracking-tight text-white/80 leading-none">
             어소그 웹클리닉
           </span>
         </a>
