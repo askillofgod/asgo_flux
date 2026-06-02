@@ -61,7 +61,7 @@ export default function Header() {
             <a
               key={n.href}
               href={n.href}
-              className="text-[14px] font-semibold text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+              className="text-[18px] font-semibold text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
             >
               {n.label}
             </a>
@@ -103,7 +103,7 @@ export default function Header() {
                 key={n.href}
                 href={n.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-4 py-3.5 text-[16px] font-semibold text-[var(--text-muted)] hover:bg-[var(--bg-soft)]"
+                className="rounded-lg px-4 py-3.5 text-[18px] font-semibold text-[var(--text-muted)] hover:bg-[var(--bg-soft)]"
               >
                 {n.label}
               </a>
