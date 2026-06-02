@@ -226,8 +226,8 @@ export default function HeroSection() {
             <img
               src="/hero_1.webp"
               alt="ASOG 웹 클리닉 — 홈페이지 진단·제작 상담"
-              width={697}
-              height={892}
+              width={524}
+              height={820}
               loading="eager"
               fetchPriority="high"
               className="block w-full h-auto select-none"
