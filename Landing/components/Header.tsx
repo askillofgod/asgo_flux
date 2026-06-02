@@ -35,7 +35,7 @@ export default function Header() {
         <a
           href="/"
           aria-label={`${SITE.name} 홈으로`}
-          className="group flex flex-col items-start gap-0.5 leading-tight"
+          className="group flex items-center md:items-start gap-2.5 md:gap-0.5 md:flex-col leading-tight"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -43,11 +43,20 @@ export default function Header() {
             alt={SITE.name}
             width={729}
             height={164}
-            className="h-6 sm:h-7 w-auto select-none"
+            className="h-6 sm:h-7 w-auto flex-none select-none"
             draggable={false}
           />
-          <span className="hidden md:block text-[10.5px] font-medium tracking-tight text-white/55">
-            {SITE.tagline}
+
+          {/* 모바일: 로고 오른쪽 슬로건 (2줄) */}
+          <span className="md:hidden text-[11.5px] sm:text-[12.5px] font-medium leading-[1.35] tracking-tight text-white/70">
+            가격이 먼저 보이는
+            <br />
+            정찰제 웹 제작
+          </span>
+
+          {/* 데스크탑: 로고 아래 브랜드명 */}
+          <span className="hidden md:block text-[11.5px] font-semibold tracking-tight text-white/75">
+            어소그 웹클리닉
           </span>
         </a>
 
