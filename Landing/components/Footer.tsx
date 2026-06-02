@@ -8,8 +8,8 @@ export default function Footer() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)]/40 to-transparent"
       />
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8">
+          <div className="flex flex-col gap-3 max-w-md">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={SITE.logo}
@@ -26,6 +26,21 @@ export default function Footer() {
             <p className="text-[13px] text-[var(--text-muted)] leading-relaxed">
               {SITE.brandDescription}
             </p>
+            {/* 사업자 정보 */}
+            <dl className="mt-1 grid gap-1 text-[12px] sm:text-[12.5px] text-[var(--text-muted)] leading-relaxed">
+              <div className="flex gap-2">
+                <dt className="text-[var(--text-faint)] min-w-[5.5em]">대표</dt>
+                <dd>{SITE.business.representative}</dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="text-[var(--text-faint)] min-w-[5.5em]">사업자등록번호</dt>
+                <dd className="tabular-nums">{SITE.business.registrationNo}</dd>
+              </div>
+              <div className="flex gap-2">
+                <dt className="text-[var(--text-faint)] min-w-[5.5em]">주소</dt>
+                <dd>{SITE.business.address}</dd>
+              </div>
+            </dl>
           </div>
           <div className="flex flex-col sm:items-end gap-1.5 text-[13.5px]">
             <a

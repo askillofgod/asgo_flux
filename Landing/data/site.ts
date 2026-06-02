@@ -6,7 +6,14 @@ export const SITE = {
   name: "ASOG 웹 클리닉",
   brandShort: "ASOG",
   tagline: "가격이 먼저 보이는 정찰제 웹 제작",
-  brandDescription: "ASOG 웹 클리닉: 가격이 먼저 보이는 정찰제 웹 제작",
+  brandDescription:
+    "소상공인 · 자영업자 · 1인 사업자를 위한 정찰제 홈페이지 제작 서비스",
+
+  business: {
+    representative: "정영철",
+    registrationNo: "370-54-00601",
+    address: "서울시 강북구 한천로 989",
+  },
   logo: "/logo.png",
 
   url: "https://asog-landing.pages.dev",
