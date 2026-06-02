@@ -221,12 +221,7 @@ export default function HeroSection() {
           </div>
 
           {/* 우측 Hero 이미지 — 모바일은 텍스트 아래에 자연스럽게 */}
-          <div className="relative w-full max-w-[420px] mx-auto md:mx-0 md:max-w-none">
-            {/* Light blue glow */}
-            <div
-              aria-hidden="true"
-              className="absolute -inset-3 sm:-inset-5 -z-10 rounded-[32px] bg-gradient-to-br from-[var(--accent)]/18 via-[var(--accent-cyan)]/14 to-transparent blur-2xl"
-            />
+          <div className="w-full max-w-[420px] mx-auto md:mx-0 md:max-w-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/hero_1.webp"
@@ -235,7 +230,7 @@ export default function HeroSection() {
               height={892}
               loading="eager"
               fetchPriority="high"
-              className="relative block w-full h-auto rounded-[24px] sm:rounded-[28px] border border-[var(--border)] bg-white shadow-[0_28px_64px_-22px_rgba(37,99,235,0.32)] select-none"
+              className="block w-full h-auto select-none"
               draggable={false}
             />
           </div>
