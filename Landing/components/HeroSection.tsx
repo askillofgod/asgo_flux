@@ -109,7 +109,8 @@ export default function HeroSection() {
       <div className="orb orb-3 -z-10" style={{ width: 360, height: 360, bottom: -200, left: "30%" }} aria-hidden="true" />
 
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="max-w-3xl">
+        <div className="grid gap-12 md:gap-10 lg:gap-14 md:grid-cols-[1fr_minmax(0,440px)] items-center">
+          <div className="min-w-0">
           {/* Tagline pill */}
           <span className="inline-flex items-center gap-2 rounded-full bg-white border border-[var(--border)] px-3.5 py-1.5 text-[12.5px] sm:text-[13px] font-semibold text-[var(--accent-strong)] shadow-[0_4px_12px_-8px_rgba(37,99,235,0.25)]">
             <span className="relative inline-flex h-2 w-2">
@@ -217,6 +218,27 @@ export default function HeroSection() {
             <HeroStat label="평균 기간" value="2주" />
             <HeroStat label="만족도" value="4.8 / 5" />
           </dl>
+          </div>
+
+          {/* 우측 Hero 이미지 — 모바일은 텍스트 아래에 자연스럽게 */}
+          <div className="relative w-full max-w-[420px] mx-auto md:mx-0 md:max-w-none">
+            {/* Light blue glow */}
+            <div
+              aria-hidden="true"
+              className="absolute -inset-3 sm:-inset-5 -z-10 rounded-[32px] bg-gradient-to-br from-[var(--accent)]/18 via-[var(--accent-cyan)]/14 to-transparent blur-2xl"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hero_1.webp"
+              alt="ASOG 웹 클리닉 — 홈페이지 진단·제작 상담"
+              width={697}
+              height={892}
+              loading="eager"
+              fetchPriority="high"
+              className="relative block w-full h-auto rounded-[24px] sm:rounded-[28px] border border-[var(--border)] bg-white shadow-[0_28px_64px_-22px_rgba(37,99,235,0.32)] select-none"
+              draggable={false}
+            />
+          </div>
         </div>
       </div>
     </section>
