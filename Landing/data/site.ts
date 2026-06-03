@@ -14,7 +14,7 @@ export const SITE = {
     registrationNo: "370-54-00601",
     address: "서울시 강북구 한천로 989",
   },
-  logo: "/logo.png",
+  logo: "/asgo-logo.png",
 
   url: "https://asog-landing.pages.dev",
   ogImage: "/og-image.png",

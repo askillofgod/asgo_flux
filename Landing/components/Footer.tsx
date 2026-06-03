@@ -14,13 +14,9 @@ export default function Footer() {
             <img
               src={SITE.logo}
               alt={SITE.name}
-              width={729}
-              height={164}
+              width={644}
+              height={132}
               className="block self-start h-5 sm:h-6 w-auto object-contain select-none"
-              style={{
-                filter:
-                  "brightness(0) saturate(100%) invert(11%) sepia(40%) saturate(2000%) hue-rotate(204deg) brightness(96%) contrast(95%)",
-              }}
               draggable={false}
             />
             <p className="text-[13px] text-[var(--text-muted)] leading-relaxed">

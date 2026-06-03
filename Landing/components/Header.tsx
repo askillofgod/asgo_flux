@@ -41,14 +41,9 @@ export default function Header() {
           <img
             src={SITE.logo}
             alt={SITE.name}
-            width={729}
-            height={164}
+            width={644}
+            height={132}
             className="h-6 sm:h-7 w-auto flex-none select-none"
-            style={{
-              // 흰색 로고 → 브랜드 네이비/블루 톤으로 보정
-              filter:
-                "brightness(0) saturate(100%) invert(11%) sepia(40%) saturate(2000%) hue-rotate(204deg) brightness(96%) contrast(95%)",
-            }}
             draggable={false}
           />
           <span className="text-[15px] md:text-[14px] font-semibold tracking-tight text-[var(--primary)]/80 leading-none">
