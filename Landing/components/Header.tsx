@@ -43,7 +43,7 @@ export default function Header() {
             alt={SITE.name}
             width={644}
             height={132}
-            className="h-6 sm:h-7 w-auto flex-none select-none"
+            className="h-[22px] sm:h-[25px] w-auto flex-none select-none"
             draggable={false}
           />
           <span className="text-[15px] md:text-[14px] font-semibold tracking-tight text-[var(--primary)]/80 leading-none">

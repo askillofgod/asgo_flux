@@ -16,7 +16,7 @@ export default function Footer() {
               alt={SITE.name}
               width={644}
               height={132}
-              className="block self-start h-5 sm:h-6 w-auto object-contain select-none"
+              className="block self-start h-[18px] sm:h-[22px] w-auto object-contain select-none"
               draggable={false}
             />
             <p className="text-[13px] text-[var(--text-muted)] leading-relaxed">
