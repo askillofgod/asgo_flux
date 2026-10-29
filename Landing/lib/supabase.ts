@@ -3,34 +3,20 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 /**
  * 브라우저용 Supabase 클라이언트.
  *
- * 환경변수는 빌드 타임에 정적 export 번들에 인라인된다.
- * Cloudflare Pages 빌드 환경에 아래 두 값이 설정돼 있어야 한다:
- *   - NEXT_PUBLIC_SUPABASE_URL
- *   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+ * 문의는 asog-studio 프로젝트의 `inquiries` 표로 들어간다. 공식 사이트(asog)와
+ * 같은 곳이라 스튜디오 "사이트 문의" 탭에서 보이고, 들어오면 메일 알림도 간다.
+ *
+ * 주소와 키는 공개용(publishable)이라 코드에 둔다. 이 키로 할 수 있는 일은
+ * `inquiry_add` 호출뿐이고, 표를 직접 읽거나 고칠 수는 없다.
+ * 예전 Cloudflare 환경변수(NEXT_PUBLIC_SUPABASE_*)는 사라진 프로젝트를 가리키므로
+ * 읽지 않는다.
  */
-/**
- * Cloudflare 등 env 입력 실수로 `/rest/v1` 또는 후행 슬래시가 붙어 들어와도
- * supabase-js 가 내부에서 다시 `/rest/v1/<table>` 을 붙이며 경로가 중복되어
- * 404 가 나는 사고를 막기 위해 base URL 로 정규화한다.
- */
-function normalizeSupabaseUrl(raw: string): string {
-  return raw
-    .trim()
-    .replace(/\/+$/, "")
-    .replace(/\/rest\/v\d+$/i, "");
-}
+const SUPABASE_URL = "https://qtiazentdzwzkgrsjbob.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bKsdXn04F_MCXT9YgCiYZg_biJjPRZC";
 
-const SUPABASE_URL = normalizeSupabaseUrl(
-  process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
-);
-const SUPABASE_ANON_KEY = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "").trim();
-
-export const supabase: SupabaseClient | null =
-  SUPABASE_URL && SUPABASE_ANON_KEY
-    ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        auth: { persistSession: false },
-      })
-    : null;
+export const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: { persistSession: false },
+});
 
 export type InquiryPayload = {
   name: string;
@@ -44,11 +30,31 @@ export type InquiryPayload = {
   user_agent: string;
 };
 
+/** 스튜디오 문의 카드에서 랜딩 문의임을 알아보게 붙이는 꼬리표 */
+const SOURCE_TAG = "웹클리닉 랜딩";
+
+/**
+ * 랜딩 폼 항목을 공식 사이트 문의 형식(q1·need·tel …)에 맞춰 보낸다.
+ * 업종·참고 사이트는 따로 칸이 없어 문의 내용 아래에 붙인다.
+ */
 export async function insertInquiry(payload: InquiryPayload): Promise<void> {
-  if (!supabase) {
-    throw new Error("supabase_client_not_initialized");
-  }
-  const { error } = await supabase.from("inquiries").insert(payload);
+  const extra = [
+    payload.industry && `업종: ${payload.industry}`,
+    payload.reference_url && `참고 사이트: ${payload.reference_url}`,
+  ].filter(Boolean);
+  const body = (payload.message || "(문의 내용 없음)").slice(0, 3500);
+  const q1 = extra.length ? `${body}\n\n${extra.join("\n")}` : body;
+
+  const { error } = await supabase.rpc("inquiry_add", {
+    p: {
+      q1,
+      name: payload.name,
+      tel: payload.phone,
+      company: payload.company,
+      need: [SOURCE_TAG, ...(payload.product ? [payload.product] : [])],
+      page: payload.page_url,
+    },
+  });
   if (error) {
     throw error;
   }
