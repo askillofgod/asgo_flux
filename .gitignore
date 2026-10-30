@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 로컬 전용 — 설정·소재는 올리지 않는다
+.claude/
+xxx/
+239567d3-e9cd-44a9-a895-3247cecfc630.png
